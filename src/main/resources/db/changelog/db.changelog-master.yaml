@@ -20,10 +20,6 @@ databaseChangeLog:
               - column:
                   name: client_id
                   type: uuid
-                  constraints:
-                    foreignKey: true
-                    foreighKeyName: cient_fkey
-                    nullable: false
               - column:
                   name: street_name
                   type: varchar

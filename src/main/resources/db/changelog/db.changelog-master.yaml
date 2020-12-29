@@ -2,3 +2,61 @@ databaseChangeLog:
   -  changeSet:
        id:  adicionar suporte ao liquibase
        author:  izumizawa
+
+  - changeSet:
+      id: add-address-table
+      author: Gabriel Seabra
+      changes:
+        - createTable:
+            tableName: address
+            columns:
+              - column:
+                  name: address_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: address_pkey
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: int
+                  constraints:
+                    foreignKey: true
+                    foreighKeyName: cient_fkey
+                    nullable: false
+              - column:
+                  name: street_name
+                  type: varchar
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: district
+                  type: varchar
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: city
+                  type: varchar
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: state
+                  type: varchar
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: zip_code
+                  type: varchar
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: complement
+                  type: varchar
+                  constraints:
+                    - nullable: true
+              - column:
+                  name: reference
+                  type: varchar
+                  constraints:
+                    - nullable: true

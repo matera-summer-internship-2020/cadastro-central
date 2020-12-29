@@ -2,3 +2,82 @@ databaseChangeLog:
   -  changeSet:
        id:  adicionar suporte ao liquibase
        author:  izumizawa
+
+  -  changeSet:
+       id:  Adding telephone type table
+       author:  izumizawa
+       changes:
+         -  createTable:
+              tableName: telephone_type
+              columns:
+                - column:
+                    name: telephone_id_type
+                    type: int
+                    constraints:
+                      nullable: false
+                      primaryKey: true
+                - column:
+                    name: telephone_type
+                    type: varchar(20)
+
+  -  changeSet:
+       id:  Adding telephone table
+       author:  izumizawa
+       changes:
+         -  createTable:
+              tableName: telephone
+              columns:
+                -  column:
+                     name: telephone_id
+                     type: uuid
+                     constraints:
+                       primaryKey: true
+                       nullable: false
+                -  column:
+                     name: client_id
+                     type: uuid
+                     constraints:
+                       nullable: false
+                -  column:
+                     name: telephone_id_type
+                     type: int
+                     constraints:
+                       foreignKeyName: telephone_id_type
+                       references: telephone_type(telephone_id_type)
+                       nullable: false
+                -  column:
+                     name: number
+                     type: varchar(15)
+                     constraints:
+                       nullable: false
+                -  column:
+                     name: ddd
+                     type: varchar(3)
+                     constraints:
+                       nullable: false
+
+  - changeSet:
+      id: Inserting in telephone type table
+      author: izumizawa
+      changes:
+         -  insert:
+              tableName: telephone_type
+              columns:
+              -  column:
+                   name: telephone_id_type
+                   value: 1
+              -  column:
+                   name: telephone_type
+                   value: landline
+         -  insert:
+              tableName: telephone_type
+              columns:
+              - column:
+                  name: telephone_id_type
+                  value: 2
+              - column:
+                  name: telephone_type
+                  value: mobile
+
+
+

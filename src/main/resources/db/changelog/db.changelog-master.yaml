@@ -1,0 +1,4 @@
+databaseChangeLog:
+  -  changeSet:
+       id:  adicionar suporte ao liquibase
+       author:  izumizawa

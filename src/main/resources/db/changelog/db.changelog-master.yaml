@@ -12,15 +12,14 @@ databaseChangeLog:
             columns:
               - column:
                   name: address_id
-                  type: int
-                  autoIncrement: true
+                  type: uuid
                   constraints:
                     primaryKey: true
                     primaryKeyName: address_pkey
                     nullable: false
               - column:
                   name: client_id
-                  type: int
+                  type: uuid
                   constraints:
                     foreignKey: true
                     foreighKeyName: cient_fkey

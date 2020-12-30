@@ -11,10 +11,9 @@ databaseChangeLog:
               tableName: telephone_type
               columns:
                 - column:
-                    name: telephone_id_type
+                    name: telephone_type_id_pk
                     type: int
                     constraints:
-                      nullable: false
                       primaryKey: true
                 - column:
                     name: telephone_type
@@ -28,22 +27,21 @@ databaseChangeLog:
               tableName: telephone
               columns:
                 -  column:
-                     name: telephone_id
+                     name: telephone_id_pk
                      type: uuid
                      constraints:
                        primaryKey: true
-                       nullable: false
                 -  column:
                      name: client_id
                      type: uuid
                      constraints:
                        nullable: false
                 -  column:
-                     name: telephone_id_type
+                     name: telephone_type_id
                      type: int
                      constraints:
-                       foreignKeyName: telephone_id_type
-                       references: telephone_type(telephone_id_type)
+                       foreignKeyName: telephone_type_id_fk
+                       references: telephone_type(telephone_type_id_pk)
                        nullable: false
                 -  column:
                      name: number
@@ -64,7 +62,7 @@ databaseChangeLog:
               tableName: telephone_type
               columns:
               -  column:
-                   name: telephone_id_type
+                   name: telephone_type_id_pk
                    value: 1
               -  column:
                    name: telephone_type
@@ -73,7 +71,7 @@ databaseChangeLog:
               tableName: telephone_type
               columns:
               - column:
-                  name: telephone_id_type
+                  name: telephone_type_id_pk
                   value: 2
               - column:
                   name: telephone_type

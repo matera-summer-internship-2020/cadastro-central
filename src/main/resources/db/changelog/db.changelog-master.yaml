@@ -1,7 +1,79 @@
 databaseChangeLog:
-  -  changeSet:
-       id:  adicionar suporte ao liquibase
-       author:  izumizawa
+
+  - changeSet:
+      id: create_client_database_structure
+      author: Gabriel Oswaldo
+      changes:
+        - createTable:
+            tableName: marital_status
+            columns:
+              - column:
+                  name: marital_status_id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: marital_status_pk
+              - column:
+                  name: marital_status
+                  type: varchar(20)
+        - insert:
+            tableName: marital_status
+            columns:
+              - column:
+                  name: marital_status_id
+                  value: 1
+              - column:
+                  name: marital_status
+                  value: single
+        - insert:
+            tableName: marital_status
+            columns:
+              - column:
+                  name: marital_status_id
+                  value: 2
+              - column:
+                  name: marital_status
+                  value: married
+        - insert:
+            tableName: marital_status
+            columns:
+              - column:
+                  name: marital_status_id
+                  value: 3
+              - column:
+                  name: marital_status
+                  value: widower
+        - createTable:
+            tableName: client
+            columns:
+              - column:
+                  name: client_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: client_pk
+              - column:
+                  name: marital_status_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: client_marital_status_fk
+                    references: marital_status(marital_status_id)
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rg
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cpf
+                  type: varchar(11)
+                  constraints:
+                    nullable: false   
 
   -  changeSet:
        id:  Adding telephone type table
@@ -79,5 +151,54 @@ databaseChangeLog:
                   name: telephone_type
                   value: mobile
 
-
-
+  - changeSet:
+      id: add-address-table
+      author: Gabriel Seabra
+      changes:
+        - createTable:
+            tableName: address
+            columns:
+              - column:
+                  name: address_id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: address_pkey
+              - column:
+                  name: client_id
+                  type: uuid
+              - column:
+                  name: street_name
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: district
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: city
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: state
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: zip_code
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: complement
+                  type: varchar(255)
+                  constraints:
+                    - nullable: true
+              - column:
+                  name: reference
+                  type: varchar(255)
+                  constraints:
+                    - nullable: true

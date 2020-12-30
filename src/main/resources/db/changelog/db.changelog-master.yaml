@@ -16,42 +16,41 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     primaryKeyName: address_pkey
-                    nullable: false
               - column:
                   name: client_id
                   type: uuid
               - column:
                   name: street_name
-                  type: varchar
+                  type: varchar(255)
                   constraints:
                     - nullable: false
               - column:
                   name: district
-                  type: varchar
+                  type: varchar(255)
                   constraints:
                     - nullable: false
               - column:
                   name: city
-                  type: varchar
+                  type: varchar(255)
                   constraints:
                     - nullable: false
               - column:
                   name: state
-                  type: varchar
+                  type: varchar(255)
                   constraints:
                     - nullable: false
               - column:
                   name: zip_code
-                  type: varchar
+                  type: varchar(255)
                   constraints:
                     - nullable: false
               - column:
                   name: complement
-                  type: varchar
+                  type: varchar(255)
                   constraints:
                     - nullable: true
               - column:
                   name: reference
-                  type: varchar
+                  type: varchar(255)
                   constraints:
                     - nullable: true

@@ -292,3 +292,30 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: false
+
+  - changeSet:
+      id: remove "rg" and "cpf" columns from client table
+      author: Gabriel Oswaldo
+      changes:
+        - dropColumn:
+            tableName: client
+            columns:
+              - column:
+                  name: rg
+              - column:
+                  name: cpf
+
+  - changeSet:
+      id: add identity_document column into client table
+      author: Gabriel Oswaldo
+      changes:
+        - addColumn:
+            tableName: client
+            columns:
+              - column:
+                  name: identity_document_id
+                  type: UUID
+                  constraints:
+                    - foreignKeyName: client_identity_document_fk
+                    - references: identity_document(identity_document_id)
+                    - nullable: false

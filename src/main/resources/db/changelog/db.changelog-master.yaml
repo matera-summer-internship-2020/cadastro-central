@@ -1,72 +1,21 @@
 databaseChangeLog:
-  - changeSet:
-      id: add-address-table
-      author: Gabriel Seabra
-      changes:
-        - createTable:
-            tableName: address
-            columns:
-              - column:
-                  name: address_id
-                  type: uuid
-                  constraints:
-                    primaryKey: true
-                    primaryKeyName: address_pkey
-              - column:
-                  name: client_id
-                  type: uuid
-              - column:
-                  name: street_name
-                  type: varchar(255)
-                  constraints:
-                    - nullable: false
-              - column:
-                  name: district
-                  type: varchar(255)
-                  constraints:
-                    - nullable: false
-              - column:
-                  name: city
-                  type: varchar(255)
-                  constraints:
-                    - nullable: false
-              - column:
-                  name: state
-                  type: varchar(255)
-                  constraints:
-                    - nullable: false
-              - column:
-                  name: zip_code
-                  type: varchar(255)
-                  constraints:
-                    - nullable: false
-              - column:
-                  name: complement
-                  type: varchar(255)
-                  constraints:
-                    - nullable: true
-              - column:
-                  name: reference
-                  type: varchar(255)
-                  constraints:
-                    - nullable: true
 
   - changeSet:
       id: create_client_database_structure
       author: Gabriel Oswaldo
       changes:
         - createTable:
-              tableName: marital_status
-              columns:
-                - column:
-                    name: marital_status_id
-                    type: int
-                    constraints:
-                      primaryKey: true
-                      primaryKeyName: marital_status_pk
-                - column:
-                    name: marital_status
-                    type: varchar(20)
+            tableName: marital_status
+            columns:
+              - column:
+                  name: marital_status_id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: marital_status_pk
+              - column:
+                  name: marital_status
+                  type: varchar(20)
         - insert:
             tableName: marital_status
             columns:
@@ -124,4 +73,132 @@ databaseChangeLog:
                   name: cpf
                   type: varchar(11)
                   constraints:
-                    nullable: false
+                    nullable: false   
+
+  -  changeSet:
+       id:  Adding telephone type table
+       author:  izumizawa
+       changes:
+         -  createTable:
+              tableName: telephone_type
+              columns:
+                - column:
+                    name: telephone_type_id
+                    type: int
+                    constraints:
+                      primaryKey: true
+                      primaryKeyName: telephone_type_pk
+                - column:
+                    name: telephone_type
+                    type: varchar(20)
+
+  -  changeSet:
+       id:  Adding telephone table
+       author:  izumizawa
+       changes:
+         -  createTable:
+              tableName: telephone
+              columns:
+                -  column:
+                     name: telephone_id
+                     type: uuid
+                     constraints:
+                       primaryKey: true
+                       primaryKeyName: telephone_pk
+                -  column:
+                     name: client_id
+                     type: uuid
+                     constraints:
+                       nullable: false
+                -  column:
+                     name: telephone_type_id
+                     type: int
+                     constraints:
+                       foreignKeyName: telephone_type_fk
+                       references: telephone_type(telephone_type_id)
+                       nullable: false
+                -  column:
+                     name: number
+                     type: varchar(15)
+                     constraints:
+                       nullable: false
+                -  column:
+                     name: ddd
+                     type: varchar(3)
+                     constraints:
+                       nullable: false
+
+  - changeSet:
+      id: Inserting in telephone type table
+      author: izumizawa
+      changes:
+         -  insert:
+              tableName: telephone_type
+              columns:
+              -  column:
+                   name: telephone_type_id
+                   value: 1
+              -  column:
+                   name: telephone_type
+                   value: landline
+         -  insert:
+              tableName: telephone_type
+              columns:
+              - column:
+                  name: telephone_type_id
+                  value: 2
+              - column:
+                  name: telephone_type
+                  value: mobile
+
+  - changeSet:
+      id: add-address-table
+      author: Gabriel Seabra
+      changes:
+        - createTable:
+            tableName: address
+            columns:
+              - column:
+                  name: address_id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: address_pkey
+              - column:
+                  name: client_id
+                  type: uuid
+              - column:
+                  name: street_name
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: district
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: city
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: state
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: zip_code
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: complement
+                  type: varchar(255)
+                  constraints:
+                    - nullable: true
+              - column:
+                  name: reference
+                  type: varchar(255)
+                  constraints:
+                    - nullable: true

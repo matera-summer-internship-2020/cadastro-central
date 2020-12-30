@@ -203,7 +203,6 @@ databaseChangeLog:
                   constraints:
                     - nullable: true
 
-
   - changeSet:
       id: addForeignKeyConstraint-address-client
       author: Gabriel Seabra
@@ -225,3 +224,98 @@ databaseChangeLog:
             constraintName: fk_telephone_client
             referencedColumnNames: client_id
             referencedTableName: client
+
+  - changeSet:
+      id: create identity_document_type table
+      author: Gabriel Oswaldo
+      changes:
+        - createTable:
+            tableName: identity_document_type
+            columns:
+              - column:
+                  name: identity_document_type_id
+                  type: int
+                  constraints:
+                    - primaryKey: true
+                    - primaryKeyName: identity_document_type_pk
+              - column:
+                  name: identity_document_type
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+
+  - changeSet:
+      id: insert values "RG" and "CPF" into identity_document_type table
+      author: Gabriel Oswaldo
+      changes:
+        - insert:
+            tableName: identity_document_type
+            columns:
+              - column:
+                  name: identity_document_type_id
+                  value: 1
+              - column:
+                  name: identity_document_type
+                  value: RG
+        - insert:
+            tableName: identity_document_type
+            columns:
+              - column:
+                  name: identity_document_type_id
+                  value: 2
+              - column:
+                  name: identity_document_type
+                  value: CPF
+
+  - changeSet:
+      id: create identity_document table
+      author: Gabriel Oswaldo
+      changes:
+        - createTable:
+            tableName: identity_document
+            columns:
+              - column:
+                  name: identity_document_id
+                  type: UUID
+                  constraints:
+                    - primaryKey: true
+                    - primaryKeyName: identity_document_pk
+              - column:
+                  name: identity_document_type_id
+                  type: int
+                  constraints:
+                    - foreignKeyName: identity_document_identity_document_type_fk
+                    - references: identity_document_type(identity_document_type_id)
+                    - nullable: false
+              - column:
+                  name: identity_document
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: remove "rg" and "cpf" columns from client table
+      author: Gabriel Oswaldo
+      changes:
+        - dropColumn:
+            tableName: client
+            columns:
+              - column:
+                  name: rg
+              - column:
+                  name: cpf
+
+  - changeSet:
+      id: add identity_document column into client table
+      author: Gabriel Oswaldo
+      changes:
+        - addColumn:
+            tableName: client
+            columns:
+              - column:
+                  name: identity_document_id
+                  type: UUID
+                  constraints:
+                    - foreignKeyName: client_identity_document_fk
+                    - references: identity_document(identity_document_id)
+                    - nullable: false

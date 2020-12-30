@@ -202,3 +202,26 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     - nullable: true
+
+
+  - changeSet:
+      id: addForeignKeyConstraint-address-client
+      author: Gabriel Seabra
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: client_id
+            baseTableName: address
+            constraintName: fk_address_client
+            referencedColumnNames: client_id
+            referencedTableName: client
+
+  - changeSet:
+      id: addForeignKeyConstraint-telephone-client
+      author: Gabriel Seabra
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: client_id
+            baseTableName: telephone
+            constraintName: fk_telephone_client
+            referencedColumnNames: client_id
+            referencedTableName: client

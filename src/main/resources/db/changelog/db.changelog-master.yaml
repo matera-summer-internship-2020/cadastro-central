@@ -1,4 +1,55 @@
 databaseChangeLog:
+  - changeSet:
+      id: add-address-table
+      author: Gabriel Seabra
+      changes:
+        - createTable:
+            tableName: address
+            columns:
+              - column:
+                  name: address_id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: address_pkey
+              - column:
+                  name: client_id
+                  type: uuid
+              - column:
+                  name: street_name
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: district
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: city
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: state
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: zip_code
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: complement
+                  type: varchar(255)
+                  constraints:
+                    - nullable: true
+              - column:
+                  name: reference
+                  type: varchar(255)
+                  constraints:
+                    - nullable: true
 
   - changeSet:
       id: create_client_database_structure

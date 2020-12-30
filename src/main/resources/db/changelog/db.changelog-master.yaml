@@ -11,10 +11,11 @@ databaseChangeLog:
               tableName: telephone_type
               columns:
                 - column:
-                    name: telephone_type_id_pk
+                    name: telephone_type_id
                     type: int
                     constraints:
                       primaryKey: true
+                      primaryKeyName: telephone_type_pk
                 - column:
                     name: telephone_type
                     type: varchar(20)
@@ -27,10 +28,11 @@ databaseChangeLog:
               tableName: telephone
               columns:
                 -  column:
-                     name: telephone_id_pk
+                     name: telephone_id
                      type: uuid
                      constraints:
                        primaryKey: true
+                       primaryKeyName: telephone_pk
                 -  column:
                      name: client_id
                      type: uuid
@@ -40,8 +42,8 @@ databaseChangeLog:
                      name: telephone_type_id
                      type: int
                      constraints:
-                       foreignKeyName: telephone_type_id_fk
-                       references: telephone_type(telephone_type_id_pk)
+                       foreignKeyName: telephone_type_fk
+                       references: telephone_type(telephone_type_id)
                        nullable: false
                 -  column:
                      name: number
@@ -62,7 +64,7 @@ databaseChangeLog:
               tableName: telephone_type
               columns:
               -  column:
-                   name: telephone_type_id_pk
+                   name: telephone_type_id
                    value: 1
               -  column:
                    name: telephone_type
@@ -71,7 +73,7 @@ databaseChangeLog:
               tableName: telephone_type
               columns:
               - column:
-                  name: telephone_type_id_pk
+                  name: telephone_type_id
                   value: 2
               - column:
                   name: telephone_type

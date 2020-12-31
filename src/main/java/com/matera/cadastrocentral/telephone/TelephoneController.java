@@ -27,13 +27,13 @@ public class TelephoneController {
         return telephoneService.findAllTelephonesByClientId(clientId);
     }
 
-    // 2. List one specific telephone if it exists or null if it does not
+    // 2. List one specific telephone if it exists
     @GetMapping("/{telephoneId}/telephone")
     public Optional<Telephone> getByTelephoneId(@PathVariable("telephoneId") UUID telephoneId) {
         return telephoneService.findByTelephoneId(telephoneId);
     }
 
-    // 3. Insert one telephone for one client - works but it inserts duplicated numbers
+    // 3. Insert one telephone for one client
     @PostMapping("/client/{clientId}/telephone")
     public Telephone insertTelephone(@PathVariable("clientId") UUID clientId,
                                      @RequestBody @Validated TelephoneDTO telephone)

@@ -14,7 +14,6 @@ public class TelephoneController {
     // Controller <- DTO
 
     private final TelephoneService telephoneService;
-    private Object TelephoneNotFound;
 
     @Autowired
     public TelephoneController(TelephoneService telephoneService) {

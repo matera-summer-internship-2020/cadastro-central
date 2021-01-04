@@ -319,3 +319,21 @@ databaseChangeLog:
                     - foreignKeyName: client_identity_document_fk
                     - references: identity_document(identity_document_id)
                     - nullable: false
+
+  - changeSet:
+      id: modify client and identity_document association
+      author: Gabriel Oswaldo
+      changes:
+        - dropColumn:
+            tableName: client
+            columnName: identity_document_id
+        - addColumn:
+            tableName: identity_document
+            columns:
+              - column:
+                  name: client_id
+                  type: UUID
+                  constraints:
+                    - foreignKeyName: identity_document_client_fk
+                    - references: client(client_id)
+                    - nullable: false

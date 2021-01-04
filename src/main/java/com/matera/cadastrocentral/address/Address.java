@@ -8,7 +8,7 @@ import java.util.UUID;
 @Entity
 public class Address {
 
-    private @Id @GeneratedValue UUID addressId;
+    private @Id UUID addressId;
     private UUID clientId;
     private String streetName;
     private String district;
@@ -42,11 +42,11 @@ public class Address {
         this.city = city;
     }
 
-    public String getStreet_name() {
+    public String getStreetName() {
         return streetName;
     }
 
-    public void setStreet_name(String streetName) {
+    public void setStreetName(String streetName) {
         this.streetName = streetName;
     }
 
@@ -54,8 +54,8 @@ public class Address {
         return district;
     }
 
-    public UUID getAddress_id() {
-        return address_id;
+    public UUID getAddressId() {
+        return addressId;
     }
 
     public UUID getClientId() {
@@ -74,11 +74,11 @@ public class Address {
         this.state = state;
     }
 
-    public String getZip_code() {
+    public String getZipCode() {
         return zipCode;
     }
 
-    public void setZip_code(String zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
 

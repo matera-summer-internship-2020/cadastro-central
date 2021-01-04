@@ -32,11 +32,15 @@ public class AddressService {
     public Address alterAddress(UUID id, Address newAddress) {
         Address alteredAddress = addressRepository.findById(id).orElse(null);
 
+        if (alteredAddress == null) {
+            return null;
+        }
+
         alteredAddress.setReference(Optional.ofNullable(newAddress.getReference()).orElse(alteredAddress.getReference()));
-        alteredAddress.setZip_code(Optional.ofNullable(newAddress.getZip_code()).orElse(alteredAddress.getZip_code()));
+        alteredAddress.setZipCode(Optional.ofNullable(newAddress.getZipCode()).orElse(alteredAddress.getZipCode()));
         alteredAddress.setDistrict(Optional.ofNullable(newAddress.getDistrict()).orElse(alteredAddress.getDistrict()));
         alteredAddress.setComplement(Optional.ofNullable(newAddress.getComplement()).orElse(alteredAddress.getComplement()));
-        alteredAddress.setStreet_name(Optional.ofNullable(newAddress.getStreet_name()).orElse(alteredAddress.getStreet_name()));
+        alteredAddress.setStreetName(Optional.ofNullable(newAddress.getStreetName()).orElse(alteredAddress.getStreetName()));
         alteredAddress.setState(Optional.ofNullable(newAddress.getState()).orElse(alteredAddress.getState()));
         alteredAddress.setCity(Optional.ofNullable(newAddress.getCity()).orElse(alteredAddress.getCity()));
 

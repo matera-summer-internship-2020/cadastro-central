@@ -20,9 +20,9 @@ public class AddressController {
         return addressService.insertAddress(newAddress);
     }
 
-    @GetMapping("/{address_id}")
-    Address getAddressById(@PathVariable UUID address_id) {
-        return addressService.getAddressById(address_id);
+    @GetMapping("/{addressId}")
+    Address getAddressById(@PathVariable UUID addressId) {
+        return addressService.getAddressById(addressId);
     }
 
     @GetMapping
@@ -30,13 +30,13 @@ public class AddressController {
         return addressService.getAddressListByClientId(clientId);
     }
 
-    @PutMapping("/{address_id}")
-    Address alterAddress(@PathVariable UUID address_id, @RequestBody Address newAddress) {
-        return addressService.alterAddress(address_id, newAddress);
+    @PutMapping("/{addressId}")
+    Address alterAddress(@PathVariable UUID addressId, @RequestBody Address newAddress) {
+        return addressService.alterAddress(addressId, newAddress);
     }
 
-    @DeleteMapping("/{address_id}")
-    void deleteAddress(@PathVariable UUID address_id) {
-        addressService.deleteAddress(address_id);
+    @DeleteMapping("/{addressId}")
+    void deleteAddress(@PathVariable UUID addressId) {
+        addressService.deleteAddress(addressId);
     }
 }

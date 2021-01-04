@@ -25,19 +25,6 @@ public class Telephone implements TelephoneProjection {
         this.ddd = ddd;
     }
 
-    public boolean Equals(Telephone telephone1, TelephoneDTO telephoneDTO) {
-    // Verify if telephone is equal to another except for the telephoneId
-        if (telephone1.getClientId().equals(telephoneDTO.getClientId())) {
-            if (telephone1.getTelephoneTypeId() == telephoneDTO.getTelephoneTypeId()) {
-                if (telephone1.getNumber().equals(telephoneDTO.getNumber())) {
-                    return telephone1.getDdd().equals(telephoneDTO.getDdd());
-                }
-            }
-        }
-
-        return false;
-    }
-
     @Override
     public UUID getTelephoneId() {
         return telephoneId;

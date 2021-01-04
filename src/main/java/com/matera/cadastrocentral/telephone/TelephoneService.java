@@ -1,6 +1,7 @@
 package com.matera.cadastrocentral.telephone;
 
 import javassist.tools.web.BadHttpRequest;
+import org.springframework.data.domain.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -23,30 +23,16 @@ public class TelephoneService {
     private final TelephoneRepository telephoneRepository;
 
     public List<Telephone> findAllTelephonesByClientId(UUID clientId) {
-        List<Telephone> phoneList = telephoneRepository.findAllByClientId(clientId);
-        if (phoneList.isEmpty()) {
-            throw new ClientNotFound();
-        } else {
-            return phoneList;
-        }
+        return telephoneRepository.findAllByClientId(clientId);
     }
 
     public Optional<Telephone> findByTelephoneId(UUID telephoneId) {
-        Optional<Telephone> optionalTelephone = telephoneRepository.findById(telephoneId);
-        if (optionalTelephone.isPresent()) {
-            return optionalTelephone;
-        } else {
-            throw new TelephoneNotFound();
-        }
+        return telephoneRepository.findById(telephoneId);
     }
 
     public Telephone insertTelephone(UUID clientId, TelephoneDTO telephone) throws TelephoneAlreadyExists {
         // Checks if the input already exists in database before inserting
-        List<Telephone> similarPhoneList = telephoneRepository.findAllByClientId(clientId)
-                .stream().filter(telephone1 ->
-                telephone1.Equals(telephone1, telephone))
-                .collect(Collectors.toList());
-        if (similarPhoneList.isEmpty()) {
+        if (telephoneRepository.findAll(Example.of(new Telephone(telephone))).isEmpty()) {
             Telephone auxPhone = new Telephone(telephone);
             auxPhone.setTelephoneId(telephone.getTelephoneId());
             telephoneRepository.save(auxPhone);

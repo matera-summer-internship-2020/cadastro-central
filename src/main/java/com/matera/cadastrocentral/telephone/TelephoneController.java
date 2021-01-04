@@ -29,7 +29,11 @@ public class TelephoneController {
     // 2. List one specific telephone if it exists
     @GetMapping("/{telephoneId}/telephone")
     public Optional<Telephone> getByTelephoneId(@PathVariable("telephoneId") UUID telephoneId) {
-        return telephoneService.findByTelephoneId(telephoneId);
+        if (telephoneService.findByTelephoneId(telephoneId).isPresent()) {
+            return telephoneService.findByTelephoneId(telephoneId);
+        } else {
+            throw new TelephoneService.TelephoneNotFound();
+        }
     }
 
     // 3. Insert one telephone for one client

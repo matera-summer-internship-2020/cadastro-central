@@ -2,30 +2,34 @@ package com.matera.cadastrocentral.address;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import java.util.UUID;
 
 @Entity
 public class Address {
 
-    private @Id @GeneratedValue UUID address_id;
+    private @Id @GeneratedValue UUID addressId;
     private UUID clientId;
-    private String street_name;
+    private String streetName;
     private String district;
     private String state;
-    private String zip_code;
+    private String zipCode;
     private String complement;
     private String reference;
     private String city;
 
 
-    public Address() {}
+    @PrePersist
+    public void prePersist() {
+        this.addressId = UUID.randomUUID();
+    }
 
-    public Address(UUID clientId, String street_name, String district, String state, String zip_code, String complement, String reference) {
+    public Address(UUID clientId, String streetName, String district, String state, String zipCode, String complement, String reference) {
         this.clientId = clientId;
-        this.street_name = street_name;
+        this.streetName = streetName;
         this.district = district;
         this.state = state;
-        this.zip_code = zip_code;
+        this.zipCode = zipCode;
         this.complement = complement;
         this.reference = reference;
     }
@@ -39,11 +43,11 @@ public class Address {
     }
 
     public String getStreet_name() {
-        return street_name;
+        return streetName;
     }
 
-    public void setStreet_name(String street_name) {
-        this.street_name = street_name;
+    public void setStreet_name(String streetName) {
+        this.streetName = streetName;
     }
 
     public String getDistrict() {
@@ -71,11 +75,11 @@ public class Address {
     }
 
     public String getZip_code() {
-        return zip_code;
+        return zipCode;
     }
 
-    public void setZip_code(String zip_code) {
-        this.zip_code = zip_code;
+    public void setZip_code(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public String getComplement() {

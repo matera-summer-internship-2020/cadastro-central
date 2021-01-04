@@ -1,39 +1,32 @@
 package com.matera.cadastrocentral.client;
 
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.matera.cadastrocentral.identitydocument.IdentityDocumentEntity;
+import com.matera.cadastrocentral.maritalstatus.MaritalStatusEntity;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Data
 @NoArgsConstructor
-@Getter
-@Setter
 public class Client {
 
     @Id
     private UUID clientId;
-    private Integer maritalStatusId;
     private String name;
-    private UUID identityDocumentId;
+    @ManyToOne
+    @JoinColumn(name = "marital_status_id")
+    private MaritalStatusEntity maritalStatusEntity;
+    @OneToMany(mappedBy = "client")
+    @JsonManagedReference
+    private List<IdentityDocumentEntity> identityDocumentEntityList;
 
-    /* Constructors */
-
-    public Client(ClientDTO clientDTO) {
-        this.clientId = clientDTO.getClientId();
-        this.maritalStatusId = clientDTO.getMaritalStatusId();
-        this.name = clientDTO.getName();
-        this.identityDocumentId = clientDTO.getIdentityDocumentId();
-    }
-
-    public Client(UUID clientId, Integer maritalStatusId,
-                  String name, UUID identityDocumentId) {
-        this.clientId = clientId;
-        this.maritalStatusId = maritalStatusId;
-        this.name = name;
-        this.identityDocumentId = identityDocumentId;
+    @PrePersist
+    public void prePersist(){
+        this.clientId = UUID.randomUUID();
     }
 }

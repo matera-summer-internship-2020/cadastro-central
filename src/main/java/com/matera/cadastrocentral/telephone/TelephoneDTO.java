@@ -30,6 +30,10 @@ public class TelephoneDTO implements TelephoneProjection {
         return clientId;
     }
 
+    public void setClientId(UUID clientId) {
+        this.clientId = clientId;
+    }
+
     @Override
     public int getTelephoneTypeId() {
         return telephoneTypeId;

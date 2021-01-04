@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -41,26 +42,17 @@ public class TelephoneService {
 
     public Telephone insertTelephone(UUID clientId, TelephoneDTO telephone) throws TelephoneAlreadyExists {
         // Checks if the input already exists in database before inserting
-        List<Telephone> phoneList = telephoneRepository.findAllByClientId(clientId);
-        Stream<Telephone> telephoneStream = phoneList.stream().filter(telephone1 -> telephone1.getNumber()
-                                                                                    .equals(telephone.getNumber()));
-        Optional<Telephone> sameNumber = telephoneStream.findFirst();
-        boolean isExactlyTheSame = false;
-        if (sameNumber.isPresent() && sameNumber.get().getTelephoneTypeId() == telephone.getTelephoneTypeId()) {
-            if (sameNumber.get().getNumber().equals(telephone.getNumber())) {
-                if (sameNumber.get().getDdd().equals(telephone.getDdd())) {
-                    isExactlyTheSame = true;
-                }
-            }
-        }
-
-        if (sameNumber.isPresent() && isExactlyTheSame) {
-            throw new TelephoneAlreadyExists();
-        } else {
+        List<Telephone> similarPhoneList = telephoneRepository.findAllByClientId(clientId)
+                .stream().filter(telephone1 ->
+                telephone1.Equals(telephone1, telephone))
+                .collect(Collectors.toList());
+        if (similarPhoneList.isEmpty()) {
             Telephone auxPhone = new Telephone(telephone);
             auxPhone.setTelephoneId(telephone.getTelephoneId());
             telephoneRepository.save(auxPhone);
             return auxPhone;
+        } else {
+            throw new TelephoneAlreadyExists();
         }
     }
 

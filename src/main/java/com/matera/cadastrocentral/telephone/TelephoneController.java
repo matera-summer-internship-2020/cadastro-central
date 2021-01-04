@@ -37,6 +37,7 @@ public class TelephoneController {
     public Telephone insertTelephone(@PathVariable("clientId") UUID clientId,
                                      @RequestBody @Validated TelephoneDTO telephone)
             throws TelephoneService.TelephoneAlreadyExists {
+        telephone.setClientId(clientId);
         return telephoneService.insertTelephone(clientId, telephone);
     }
 

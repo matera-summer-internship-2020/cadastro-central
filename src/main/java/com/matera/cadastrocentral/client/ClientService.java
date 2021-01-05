@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,7 +17,8 @@ public class ClientService {
     private final IdentityDocumentRepository identityDocumentRepository;
 
     @Autowired
-    public ClientService(final ClientRepository clientRepository, IdentityDocumentRepository identityDocumentRepository) {
+    public ClientService(final ClientRepository clientRepository,
+                         final IdentityDocumentRepository identityDocumentRepository) {
         this.clientRepository = clientRepository;
         this.identityDocumentRepository = identityDocumentRepository;
     }
@@ -32,10 +32,14 @@ public class ClientService {
 
     // 2. Get a specific client by id.
     public Optional<Client> getClientById(UUID clientId) {
-        try {
-            return clientRepository.findById(clientId);
-        } catch (EntityNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        Optional<Client> client = clientRepository.findById(clientId);
+        if(client.isPresent()){
+            return client;
+        } else {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Client ID does not exist in the database! Try a valid one."
+            );
         }
     }
 

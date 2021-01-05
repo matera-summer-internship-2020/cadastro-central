@@ -24,16 +24,6 @@ public class Address {
         this.addressId = UUID.randomUUID();
     }
 
-    public Address(UUID clientId, String streetName, String district, String state, String zipCode, String complement, String reference) {
-        this.clientId = clientId;
-        this.streetName = streetName;
-        this.district = district;
-        this.state = state;
-        this.zipCode = zipCode;
-        this.complement = complement;
-        this.reference = reference;
-    }
-
     public String getCity() {
         return city;
     }

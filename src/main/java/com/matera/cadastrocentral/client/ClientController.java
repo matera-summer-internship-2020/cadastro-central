@@ -3,6 +3,7 @@ package com.matera.cadastrocentral.client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,5 +31,11 @@ public class ClientController {
     @GetMapping("/{clientId}")
     public Optional<Client> getClientById(@PathVariable UUID clientId) {
         return clientService.getClientById(clientId);
+    }
+
+    // 3. Insert a client into the database.
+    @PostMapping
+    public Client insertClient(@RequestBody @Valid ClientDTO clientDTO){
+        return clientService.insertClient(clientDTO);
     }
 }

@@ -25,6 +25,14 @@ public class Client {
     @JsonManagedReference
     private List<IdentityDocumentEntity> identityDocumentEntityList;
 
+    /* Constructors */
+
+    public Client(ClientDTO clientDTO){
+        this.name = clientDTO.getName();
+        this.maritalStatusEntity = clientDTO.getMaritalStatusEntity();
+        this.identityDocumentEntityList = clientDTO.getIdentityDocumentEntityList();
+    }
+
     @PrePersist
     public void prePersist(){
         this.clientId = UUID.randomUUID();

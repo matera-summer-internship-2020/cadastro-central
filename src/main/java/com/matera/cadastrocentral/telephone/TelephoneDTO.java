@@ -6,9 +6,6 @@ import java.util.UUID;
 
 public class TelephoneDTO implements TelephoneProjection {
 
-    public TelephoneDTO() {
-    }
-
     @NotNull
     private UUID telephoneId;
     @NotNull
@@ -25,6 +22,10 @@ public class TelephoneDTO implements TelephoneProjection {
         return telephoneId;
     }
 
+    public void setTelephoneId(UUID telephoneId) {
+        this.telephoneId = telephoneId;
+    }
+
     @Override
     public UUID getClientId() {
         return clientId;
@@ -39,9 +40,17 @@ public class TelephoneDTO implements TelephoneProjection {
         return telephoneTypeId;
     }
 
+    public void setTelephoneTypeId(int telephoneTypeId) {
+        this.telephoneTypeId = telephoneTypeId;
+    }
+
     @Override
     public String getNumber() {
         return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     @Override
@@ -49,4 +58,7 @@ public class TelephoneDTO implements TelephoneProjection {
         return ddd;
     }
 
+    public void setDdd(String ddd) {
+        this.ddd = ddd;
+    }
 }

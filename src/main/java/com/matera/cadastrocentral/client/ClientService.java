@@ -2,6 +2,7 @@ package com.matera.cadastrocentral.client;
 
 import com.matera.cadastrocentral.identitydocument.IdentityDocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -67,6 +68,18 @@ public class ClientService {
 
             return clientRepository.save(alteredClient);
         } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Client ID does not exist in the database! Try a valid one."
+            );
+        }
+    }
+
+    // 5. Delete a client from the database
+    public void deleteClient(final UUID clientId) {
+        try {
+            clientRepository.deleteById(clientId);
+        } catch (EmptyResultDataAccessException e) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "Client ID does not exist in the database! Try a valid one."

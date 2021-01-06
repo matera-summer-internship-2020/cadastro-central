@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.ws.Response;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,5 +47,11 @@ public class ClientController {
             @RequestBody final ClientDTO clientDTO
     ) {
         return clientService.alterClient(clientId, clientDTO);
+    }
+
+    // 5. Delete a client from the database
+    @DeleteMapping("/{clientId}")
+    public void deleteClient(@PathVariable final UUID clientId) {
+        clientService.deleteClient(clientId);
     }
 }

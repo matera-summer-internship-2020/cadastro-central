@@ -39,7 +39,7 @@ public class ClientService {
             return client;
         } else {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
+                    HttpStatus.NOT_FOUND,
                     "Client ID does not exist in the database! Try a valid one."
             );
         }
@@ -89,7 +89,7 @@ public class ClientService {
             return clientRepository.save(alteredClient);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
+                    HttpStatus.NOT_FOUND,
                     "Client ID does not exist in the database! Try a valid one."
             );
         }
@@ -101,7 +101,7 @@ public class ClientService {
             clientRepository.deleteById(clientId);
         } catch (EmptyResultDataAccessException e) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
+                    HttpStatus.NOT_FOUND,
                     "Client ID does not exist in the database! Try a valid one."
             );
         }

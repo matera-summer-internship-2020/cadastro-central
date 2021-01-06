@@ -21,23 +21,23 @@ public class TelephoneController {
     }
 
     // 1. List all telephones from one client
-    @GetMapping("/client/{clientId}/telephones")
+    @GetMapping("/clients/{clientId}/telephones")
     public List<Telephone> getAllByClientId(@PathVariable("clientId") UUID clientId) {
         return telephoneService.findAllTelephonesByClientId(clientId);
     }
 
-    // 2. List one specific telephone if it exists
-    @GetMapping("/{telephoneId}/telephone")
-    public Optional<Telephone> getByTelephoneId(@PathVariable("telephoneId") UUID telephoneId) {
-        if (telephoneService.findByTelephoneId(telephoneId).isPresent()) {
-            return telephoneService.findByTelephoneId(telephoneId);
+    // 2. List one specific telephone if it exists in given client's set
+    @GetMapping("/clients/{clientId}/telephones/{telephoneId}")
+    public Optional<Telephone> getByTelephoneId(@PathVariable("clientId") UUID clientId, @PathVariable("telephoneId") UUID telephoneId) {
+        if (telephoneService.findByClientIdAndTelephoneId(clientId, telephoneId).isPresent()) {
+            return telephoneService.findByClientIdAndTelephoneId(clientId, telephoneId);
         } else {
             throw new TelephoneService.TelephoneNotFound();
         }
     }
 
     // 3. Insert one telephone for one client
-    @PostMapping("/client/{clientId}/telephone")
+    @PostMapping("/clients/{clientId}/telephones")
     public Telephone insertTelephone(@PathVariable("clientId") UUID clientId,
                                      @RequestBody @Validated TelephoneDTO telephone)
             throws TelephoneService.TelephoneAlreadyExists {
@@ -46,20 +46,13 @@ public class TelephoneController {
     }
 
     // 4. Delete a specific telephone
-    @DeleteMapping("/{telephoneId}/telephone")
+    @DeleteMapping("clients/{clientId}/telephones/{telephoneId}")
     public void deleteTelephone(@PathVariable("telephoneId") UUID telephoneId) {
         telephoneService.deleteTelephone(telephoneId);
     }
 
-    // 5. Find specific telephone for specific client
-    @GetMapping("/client/{clientId}/telephone/{telephoneId}")
-    public Optional<Telephone> getByClientIdAndTelephoneId(@PathVariable("clientId") UUID clientId,
-                                                           @PathVariable("telephoneId") UUID telephoneId) {
-        return telephoneService.findByClientIdAndTelephoneId(clientId, telephoneId);
-    }
-
-    // 6. Update telephone in database
-    @PutMapping("/telephone")
+    // 5. Update telephone in database
+    @PutMapping("/clients/{clientId}/telephones")
     public Telephone alterTelephoneByTelephoneId(@RequestBody @Validated TelephoneDTO telephone) {
         return telephoneService.alterTelephoneByTelephoneId(telephone);
     }

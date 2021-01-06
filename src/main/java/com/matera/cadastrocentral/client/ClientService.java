@@ -47,14 +47,34 @@ public class ClientService {
 
     // 3. Insert a client into the database.
     public Client insertClient(final ClientDTO clientDTO) {
-        Client client = clientRepository.save(new Client(clientDTO));
-        client.getIdentityDocumentEntityList().forEach(
-                identityDocumentEntity -> {
-                    identityDocumentEntity.setClient(client);
-                    identityDocumentRepository.save(identityDocumentEntity);
-                }
-        );
-        return client;
+        // Marital Status should be specified in the body
+        // since it has a not nullable constraint
+        if(clientDTO.getMaritalStatusEntity() != null){
+            // Identity Document List should be specified in the body
+            // since it has a not nullable constraint, and it should
+            // contains at least one identity document
+            if(clientDTO.getIdentityDocumentEntityList() != null &&
+                    !clientDTO.getIdentityDocumentEntityList().isEmpty()) {
+                Client client = clientRepository.save(new Client(clientDTO));
+                client.getIdentityDocumentEntityList().forEach(
+                        identityDocumentEntity -> {
+                            identityDocumentEntity.setClient(client);
+                            identityDocumentRepository.save(identityDocumentEntity);
+                        }
+                );
+                return client;
+            } else {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        "At least one identity document should be specified!"
+                );
+            }
+        } else {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Marital Status is an obligatory field!"
+            );
+        }
     }
 
     // 4. Alter a client information in the database.

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -53,5 +54,23 @@ public class ClientService {
                 }
         );
         return client;
+    }
+
+    // 4. Alter a client information in the database.
+    public Client alterClient(UUID clientId, ClientDTO clientDTO) {
+        try {
+            Client alteredClient = clientRepository.getOne(clientId);
+            alteredClient.setName(Optional.ofNullable(
+                    clientDTO.getName()).orElse(alteredClient.getName()));
+            alteredClient.setMaritalStatusEntity(Optional.ofNullable(
+                    clientDTO.getMaritalStatusEntity()).orElse(alteredClient.getMaritalStatusEntity()));
+
+            return clientRepository.save(alteredClient);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Client ID does not exist in the database! Try a valid one."
+            );
+        }
     }
 }

@@ -38,4 +38,13 @@ public class ClientController {
     public Client insertClient(@RequestBody @Valid ClientDTO clientDTO){
         return clientService.insertClient(clientDTO);
     }
+
+    // 4. Alter a client information in the database.
+    @PutMapping("/{clientId}")
+    public Client alterClient(
+            @PathVariable("clientId") final UUID clientId,
+            @RequestBody final ClientDTO clientDTO
+    ) {
+        return clientService.alterClient(clientId, clientDTO);
+    }
 }

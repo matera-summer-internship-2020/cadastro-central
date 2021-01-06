@@ -21,7 +21,7 @@ public class Client {
     @ManyToOne
     @JoinColumn(name = "marital_status_id")
     private MaritalStatusEntity maritalStatusEntity;
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade=CascadeType.ALL, orphanRemoval=true)
     @JsonManagedReference
     private List<IdentityDocumentEntity> identityDocumentEntityList;
 

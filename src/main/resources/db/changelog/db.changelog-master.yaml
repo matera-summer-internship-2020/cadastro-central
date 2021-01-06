@@ -318,7 +318,7 @@ databaseChangeLog:
                   constraints:
                     - foreignKeyName: client_identity_document_fk
                     - references: identity_document(identity_document_id)
-                    - nullable: false
+                    - nullable: true
 
   - changeSet:
       id: modify client and identity_document association

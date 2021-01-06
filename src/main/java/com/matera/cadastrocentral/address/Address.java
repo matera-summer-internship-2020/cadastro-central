@@ -8,6 +8,18 @@ import java.util.UUID;
 @Entity
 public class Address {
 
+    public Address(UUID addressId, UUID clientId, String streetName, String district, String state, String zipCode, String complement, String reference, String city) {
+        this.addressId = addressId;
+        this.clientId = clientId;
+        this.streetName = streetName;
+        this.district = district;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.complement = complement;
+        this.reference = reference;
+        this.city = city;
+    }
+
     private @Id UUID addressId;
     private UUID clientId;
     private String streetName;

@@ -1,7 +1,5 @@
 package com.matera.cadastrocentral.address;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import org.apache.catalina.filters.AddDefaultCharsetFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +24,7 @@ public class AddressController {
     }
 
     @GetMapping
-    List<Address> getAddressListByClientId(@RequestParam(value="clientId", required = true) UUID clientId) {
+    List<Address> getAddressListByClientId(@RequestParam(value = "clientId", required = true) UUID clientId) {
         return addressService.getAddressListByClientId(clientId);
     }
 

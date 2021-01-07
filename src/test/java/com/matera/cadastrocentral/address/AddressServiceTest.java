@@ -91,16 +91,6 @@ public class AddressServiceTest {
     @DisplayName("getAddressListByClientId should return an Empty Address list when addresses are not found on DB")
     void getAddressListByClientId_ShouldReturnEmptyAddressList() {
         final UUID clientId = UUID.randomUUID();
-        Address address1 = new Address();
-        Address address2 = new Address();
-        address1.setClientId(clientId);
-        address2.setClientId(clientId);
-        address1.setAddressId(UUID.randomUUID());
-        address2.setAddressId(UUID.randomUUID());
-
-        List<Address> addressesList = new ArrayList<>();
-        addressesList.add(address1);
-        addressesList.add(address2);
 
         when(addressRepository.findAllByClientId(any(UUID.class)))
                 .thenReturn(Collections.emptyList());
@@ -108,8 +98,6 @@ public class AddressServiceTest {
         List<Address> responseAddressList = addressService.getAddressListByClientId(UUID.randomUUID());
 
         Assertions.assertEquals(0, responseAddressList.size());
-        Assertions.assertFalse(responseAddressList.contains(address1));
-        Assertions.assertFalse(responseAddressList.contains(address2));
     }
 
     /* POST insertAddress TESTS */

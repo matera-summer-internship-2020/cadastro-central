@@ -88,6 +88,11 @@ public class Address {
         this.reference = reference;
     }
 
+    public void setAddressId(UUID addressId) {
+        this.addressId = addressId;
+    }
 
-
+    public void setClientId(UUID clientId) {
+        this.clientId = clientId;
+    }
 }

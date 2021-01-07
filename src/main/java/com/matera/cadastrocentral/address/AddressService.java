@@ -11,6 +11,11 @@ import java.util.UUID;
 public class AddressService {
 
     @Autowired
+    public AddressService(AddressRepository addressRepository) {
+        this.addressRepository = addressRepository;
+    }
+
+    @Autowired
     private AddressRepository addressRepository;
 
     public Address getAddressById(UUID id) {

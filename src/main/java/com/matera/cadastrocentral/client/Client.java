@@ -1,6 +1,7 @@
 package com.matera.cadastrocentral.client;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.matera.cadastrocentral.address.Address;
 import com.matera.cadastrocentral.identitydocument.IdentityDocumentEntity;
 import com.matera.cadastrocentral.maritalstatus.MaritalStatusEntity;
 import lombok.Data;
@@ -24,6 +25,9 @@ public class Client {
     @OneToMany(mappedBy = "client", cascade=CascadeType.ALL, orphanRemoval=true)
     @JsonManagedReference
     private List<IdentityDocumentEntity> identityDocumentEntityList;
+    @OneToMany(mappedBy = "clientId", cascade=CascadeType.ALL, orphanRemoval=true) //client doesn't work
+    @JsonManagedReference
+    private List<Address> addressList;
 
     /* Constructors */
 

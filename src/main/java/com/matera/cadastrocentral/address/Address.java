@@ -1,15 +1,19 @@
 package com.matera.cadastrocentral.address;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.matera.cadastrocentral.client.Client;
+
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
 public class Address {
 
-    private @Id UUID addressId;
-    private UUID clientId;
+    @Id
+    private  UUID addressId;
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    @JsonBackReference
+    private Client clientId; //client doesn't work
     private String streetName;
     private String district;
     private String state;
@@ -17,7 +21,6 @@ public class Address {
     private String complement;
     private String reference;
     private String city;
-
 
     @PrePersist
     public void prePersist() {
@@ -46,10 +49,6 @@ public class Address {
 
     public UUID getAddressId() {
         return addressId;
-    }
-
-    public UUID getClientId() {
-        return clientId;
     }
 
     public void setDistrict(String district) {

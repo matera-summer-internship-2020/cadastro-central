@@ -66,9 +66,11 @@ public class TelephoneController {
     }
 
     // 7. Update telephone properties (one or more)
-    @PatchMapping("/telephones")
-    public Telephone patchTelephoneByTelephoneId(@RequestBody @Validated TelephoneDTO telephone) {
-        return telephoneService.patchTelephoneByTelephoneId(telephone);
+    @PatchMapping("/telephones/{telephoneId}")
+    public Telephone patchTelephoneByTelephoneId(@PathVariable("telephoneId") UUID telephoneId,
+                                                 @RequestBody TelephoneDTO telephone) {
+        telephone.setTelephoneId(telephoneId);
+        return telephoneService.patchTelephonePropertyByTelephoneId(telephoneId, telephone);
     }
 
 }

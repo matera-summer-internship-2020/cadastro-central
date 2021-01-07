@@ -49,4 +49,7 @@ public class TelephoneDTO implements TelephoneProjection {
         return ddd;
     }
 
+    public void setTelephoneId(UUID telephoneId) {
+        this.telephoneId = telephoneId;
+    }
 }

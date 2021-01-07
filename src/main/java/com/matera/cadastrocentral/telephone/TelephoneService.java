@@ -3,6 +3,7 @@ package com.matera.cadastrocentral.telephone;
 import com.matera.cadastrocentral.client.ClientRepository;
 import com.matera.cadastrocentral.client.ClientService;
 import javassist.tools.web.BadHttpRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -77,10 +78,11 @@ public class TelephoneService {
         }
     }
 
-    public Telephone patchTelephoneByTelephoneId(TelephoneDTO telephone) {
+    public Telephone patchTelephonePropertyByTelephoneId(UUID telephoneId, TelephoneDTO telephone) {
         ClientService clientService = new ClientService(clientRepository, null);
-        if (telephoneRepository.findById(telephone.getTelephoneId()).isPresent()) {
-            Telephone auxTelephone = telephoneRepository.findById(telephone.getTelephoneId()).get();
+        Optional<Telephone> optionalTelephone = telephoneRepository.findById(telephoneId);
+        if (optionalTelephone.isPresent()) {
+            Telephone auxTelephone = optionalTelephone.get();
             // Check if client input exists
             if (telephone.getClientId() != null) {
                 if (clientService.getClientById(telephone.getClientId()).isPresent()) {
@@ -88,14 +90,14 @@ public class TelephoneService {
                 }
             }
             if (telephone.getTelephoneTypeId() != null)
-                auxTelephone.setTelephoneTypeId(Optional.of(telephone.getTelephoneTypeId())
-                    .orElse(auxTelephone.getTelephoneTypeId()));
-            auxTelephone.setNumber(Optional.ofNullable(telephone.getNumber())
-                    .orElse(auxTelephone.getNumber()));
-            auxTelephone.setDdd(Optional.ofNullable(telephone.getDdd())
-                    .orElse(auxTelephone.getDdd()));
-            telephoneRepository.save(auxTelephone);
-            return auxTelephone;
+                auxTelephone.setTelephoneTypeId(telephone.getTelephoneTypeId());
+            if (StringUtils.isNotBlank(telephone.getNumber())) {
+                auxTelephone.setNumber(telephone.getNumber());
+            }
+            if (StringUtils.isNotBlank(telephone.getDdd())) {
+                auxTelephone.setDdd(telephone.getDdd());
+            }
+            return telephoneRepository.save(auxTelephone);
         } else {
             throw new TelephoneNotFound();
         }

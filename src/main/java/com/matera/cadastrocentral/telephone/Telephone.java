@@ -1,7 +1,6 @@
 package com.matera.cadastrocentral.telephone;
 
 import javax.persistence.*;
-import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -51,7 +50,7 @@ public class Telephone implements TelephoneProjection {
 
     @Override
     @OneToOne
-    public int getTelephoneTypeId() {
+    public Integer getTelephoneTypeId() {
         return telephoneTypeId;
     }
 
@@ -82,7 +81,7 @@ public class Telephone implements TelephoneProjection {
 
     private UUID clientId;
 
-    int telephoneTypeId;
+    Integer telephoneTypeId;
 
     String number;
 

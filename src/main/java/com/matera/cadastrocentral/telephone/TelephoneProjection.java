@@ -5,7 +5,7 @@ import java.util.UUID;
 public interface TelephoneProjection {
     UUID getTelephoneId();
     UUID getClientId();
-    int getTelephoneTypeId();
+    Integer getTelephoneTypeId();
     String getNumber();
     String getDdd();
 }

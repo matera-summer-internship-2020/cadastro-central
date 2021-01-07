@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.executable.ValidateOnExecution;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -58,11 +59,16 @@ public class TelephoneController {
         return telephoneService.findByClientIdAndTelephoneId(clientId, telephoneId);
     }
 
-    // 6. Update telephone in database
+    // 6. Update all telephone properties in database
     @PutMapping("/telephone")
-    public Telephone alterTelephoneByTelephoneId(@RequestBody @Validated TelephoneDTO telephone) {
+    public Telephone putTelephoneByTelephoneId(@RequestBody @Validated TelephoneDTO telephone) {
         return telephoneService.alterTelephoneByTelephoneId(telephone);
     }
 
+    // 7. Update telephone properties (one or more)
+    @PatchMapping("/telephones")
+    public Telephone patchTelephoneByTelephoneId(@RequestBody @Validated TelephoneDTO telephone) {
+        return telephoneService.patchTelephoneByTelephoneId(telephone);
+    }
 
 }

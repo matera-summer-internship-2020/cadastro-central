@@ -14,7 +14,7 @@ public class TelephoneDTO implements TelephoneProjection {
     @NotNull
     private UUID clientId;
     @NotNull
-    private int telephoneTypeId;
+    private Integer telephoneTypeId;
     @NotNull
     private String number;
     @NotNull
@@ -35,7 +35,7 @@ public class TelephoneDTO implements TelephoneProjection {
     }
 
     @Override
-    public int getTelephoneTypeId() {
+    public Integer getTelephoneTypeId() {
         return telephoneTypeId;
     }
 

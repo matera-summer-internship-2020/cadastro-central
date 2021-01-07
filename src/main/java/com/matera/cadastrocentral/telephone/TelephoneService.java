@@ -1,5 +1,7 @@
 package com.matera.cadastrocentral.telephone;
 
+import com.matera.cadastrocentral.client.ClientRepository;
+import com.matera.cadastrocentral.client.ClientService;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.data.domain.Example;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +18,13 @@ import java.util.stream.Stream;
 public class TelephoneService {
 
     @Autowired
-    public TelephoneService(TelephoneRepository telephoneRepository) {
+    public TelephoneService(TelephoneRepository telephoneRepository, ClientRepository clientRepository) {
         this.telephoneRepository = telephoneRepository;
+        this.clientRepository = clientRepository;
     }
 
     private final TelephoneRepository telephoneRepository;
+    private final ClientRepository clientRepository;
 
     public List<Telephone> findAllTelephonesByClientId(UUID clientId) {
         return telephoneRepository.findAllByClientId(clientId);
@@ -67,15 +71,29 @@ public class TelephoneService {
     public Telephone alterTelephoneByTelephoneId(TelephoneDTO telephone) {
         Optional<Telephone> optionalTelephone = telephoneRepository.findById(telephone.getTelephoneId());
         if (optionalTelephone.isPresent()) {
-            Telephone auxTelephone = optionalTelephone.get();
-            auxTelephone.setClientId(Optional.ofNullable(telephone.getClientId())
-                                    .orElse(optionalTelephone.get().getClientId()));
-            auxTelephone.setTelephoneTypeId(Optional.of(telephone.getTelephoneTypeId())
-                                    .orElse(optionalTelephone.get().getTelephoneTypeId()));
+            return telephoneRepository.save(new Telephone(telephone));
+        } else {
+            throw new TelephoneNotFound();
+        }
+    }
+
+    public Telephone patchTelephoneByTelephoneId(TelephoneDTO telephone) {
+        ClientService clientService = new ClientService(clientRepository, null);
+        if (telephoneRepository.findById(telephone.getTelephoneId()).isPresent()) {
+            Telephone auxTelephone = telephoneRepository.findById(telephone.getTelephoneId()).get();
+            // Check if client input exists
+            if (telephone.getClientId() != null) {
+                if (clientService.getClientById(telephone.getClientId()).isPresent()) {
+                    auxTelephone.setClientId(telephone.getClientId());
+                }
+            }
+            if (telephone.getTelephoneTypeId() != null)
+                auxTelephone.setTelephoneTypeId(Optional.of(telephone.getTelephoneTypeId())
+                    .orElse(auxTelephone.getTelephoneTypeId()));
             auxTelephone.setNumber(Optional.ofNullable(telephone.getNumber())
-                                    .orElse(optionalTelephone.get().getNumber()));
+                    .orElse(auxTelephone.getNumber()));
             auxTelephone.setDdd(Optional.ofNullable(telephone.getDdd())
-                                    .orElse(optionalTelephone.get().getDdd()));
+                    .orElse(auxTelephone.getDdd()));
             telephoneRepository.save(auxTelephone);
             return auxTelephone;
         } else {
@@ -84,13 +102,13 @@ public class TelephoneService {
     }
 
     // Exceptions
-    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "telephone not found")
+    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Telephone not found")
     public static class TelephoneNotFound extends RuntimeException {
     }
-    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "client not found")
+    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Client not found")
     public static class ClientNotFound extends RuntimeException {
     }
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "telephone already exists")
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Telephone already exists")
     public static class TelephoneAlreadyExists extends BadHttpRequest {
     }
 }

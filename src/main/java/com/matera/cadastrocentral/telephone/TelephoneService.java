@@ -70,8 +70,8 @@ public class TelephoneService {
             Telephone auxTelephone = optionalTelephone.get();
             auxTelephone.setClientId(Optional.ofNullable(telephone.getClientId())
                                     .orElse(optionalTelephone.get().getClientId()));
-            auxTelephone.setTelephoneTypeId(Optional.of(telephone.getTelephoneTypeId())
-                                    .orElse(optionalTelephone.get().getTelephoneTypeId()));
+            auxTelephone.setTelephoneType(Optional.of(telephone.getTelephoneType())
+                                    .orElse(optionalTelephone.get().getTelephoneType()));
             auxTelephone.setNumber(Optional.ofNullable(telephone.getNumber())
                                     .orElse(optionalTelephone.get().getNumber()));
             auxTelephone.setDdd(Optional.ofNullable(telephone.getDdd())

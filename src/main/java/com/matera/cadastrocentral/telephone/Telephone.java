@@ -1,37 +1,35 @@
 package com.matera.cadastrocentral.telephone;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.matera.cadastrocentral.client.Client;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Optional;
 import java.util.UUID;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class Telephone implements TelephoneProjection {
-    public Telephone() {
-    }
 
     public Telephone(TelephoneDTO telephoneDTO) {
         this.telephoneId = telephoneDTO.getTelephoneId();
-        this.clientId = telephoneDTO.getClientId();
+//        this.clientId = telephoneDTO.getClientId();
         this.telephoneTypeId = telephoneDTO.getTelephoneTypeId();
         this.number = telephoneDTO.getNumber();
         this.ddd = telephoneDTO.getDdd();
+        this.client = telephoneDTO.getClient();
     }
 
-    public Telephone(UUID telephoneId, UUID clientId, int telephoneTypeId, String number, String ddd) {
+    public Telephone(UUID telephoneId, int telephoneTypeId, String number, String ddd, Client client) {
         this.telephoneId = telephoneId;
-        this.clientId = clientId;
+//        this.clientId = clientId;
         this.telephoneTypeId = telephoneTypeId;
         this.number = number;
         this.ddd = ddd;
-    }
-
-    @Override
-    public UUID getTelephoneId() {
-        return telephoneId;
-    }
-
-    public void setTelephoneId(UUID telephoneId) {
-        this.telephoneId = telephoneId;
+        this.client = client;
     }
 
     @PrePersist
@@ -39,53 +37,20 @@ public class Telephone implements TelephoneProjection {
         this.telephoneId = UUID.randomUUID();
     }
 
-    @Override
-    @ManyToOne
-    public UUID getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(UUID clientId) {
-        this.clientId = clientId;
-    }
-
-    @Override
-    @OneToOne
-    public int getTelephoneTypeId() {
-        return telephoneTypeId;
-    }
-
-    public void setTelephoneTypeId(int telephoneTypeId) {
-        this.telephoneTypeId = telephoneTypeId;
-    }
-
-    @Override
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    @Override
-    public String getDdd() {
-        return ddd;
-    }
-
-    public void setDdd(String ddd) {
-        this.ddd = ddd;
-    }
-
     @Id
     private UUID telephoneId;
 
-    private UUID clientId;
+//    private UUID clientId;
 
     int telephoneTypeId;
 
     String number;
 
     String ddd;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    @JsonBackReference
+    private Client client;
 
 }

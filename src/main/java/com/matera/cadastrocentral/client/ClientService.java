@@ -1,6 +1,7 @@
 package com.matera.cadastrocentral.client;
 
 import com.matera.cadastrocentral.identitydocument.IdentityDocumentRepository;
+import com.matera.cadastrocentral.telephone.TelephoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -17,12 +18,15 @@ public class ClientService {
 
     private final ClientRepository clientRepository;
     private final IdentityDocumentRepository identityDocumentRepository;
+    private final TelephoneRepository telephoneRepository;
 
     @Autowired
     public ClientService(final ClientRepository clientRepository,
-                         final IdentityDocumentRepository identityDocumentRepository) {
+                         final IdentityDocumentRepository identityDocumentRepository,
+                         TelephoneRepository telephoneRepository) {
         this.clientRepository = clientRepository;
         this.identityDocumentRepository = identityDocumentRepository;
+        this.telephoneRepository = telephoneRepository;
     }
 
     /* API requests */

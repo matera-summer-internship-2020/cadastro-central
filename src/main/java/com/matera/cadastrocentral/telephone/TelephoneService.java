@@ -68,8 +68,8 @@ public class TelephoneService {
         Optional<Telephone> optionalTelephone = telephoneRepository.findById(telephone.getTelephoneId());
         if (optionalTelephone.isPresent()) {
             Telephone auxTelephone = optionalTelephone.get();
-            auxTelephone.setClientId(Optional.ofNullable(telephone.getClientId())
-                                    .orElse(optionalTelephone.get().getClientId()));
+            auxTelephone.getClient().setClientId(Optional.ofNullable(telephone.getClient().getClientId())
+                                    .orElse(optionalTelephone.get().getClient().getClientId()));
             auxTelephone.setTelephoneTypeId(Optional.of(telephone.getTelephoneTypeId())
                                     .orElse(optionalTelephone.get().getTelephoneTypeId()));
             auxTelephone.setNumber(Optional.ofNullable(telephone.getNumber())

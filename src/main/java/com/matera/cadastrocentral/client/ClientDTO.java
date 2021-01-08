@@ -2,6 +2,7 @@ package com.matera.cadastrocentral.client;
 
 import com.matera.cadastrocentral.identitydocument.IdentityDocumentEntity;
 import com.matera.cadastrocentral.maritalstatus.MaritalStatusEntity;
+import com.matera.cadastrocentral.telephone.Telephone;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,4 +19,6 @@ public class ClientDTO {
     private MaritalStatusEntity maritalStatusEntity;
     @NotNull
     private List<IdentityDocumentEntity> identityDocumentEntityList;
+    @NotNull
+    private List<Telephone> telephoneList;
 }

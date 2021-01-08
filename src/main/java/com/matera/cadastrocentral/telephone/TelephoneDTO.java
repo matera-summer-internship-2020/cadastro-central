@@ -1,5 +1,6 @@
 package com.matera.cadastrocentral.telephone;
 
+import com.matera.cadastrocentral.client.Client;
 import com.sun.istack.NotNull;
 
 import java.util.UUID;
@@ -11,8 +12,8 @@ public class TelephoneDTO implements TelephoneProjection {
 
     @NotNull
     private UUID telephoneId;
-    @NotNull
-    private UUID clientId;
+//    @NotNull
+//    private UUID clientId;
     @NotNull
     private int telephoneTypeId;
     @NotNull
@@ -20,19 +21,26 @@ public class TelephoneDTO implements TelephoneProjection {
     @NotNull
     private String ddd;
 
+    private Client client;
+
+    @Override
+    public Client getClient() {
+        return client;
+    }
+
     @Override
     public UUID getTelephoneId() {
         return telephoneId;
     }
 
-    @Override
-    public UUID getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(UUID clientId) {
-        this.clientId = clientId;
-    }
+//    @Override
+//    public UUID getClientId() {
+//        return clientId;
+//    }
+//
+//    public void setClientId(UUID clientId) {
+//        this.clientId = clientId;
+//    }
 
     @Override
     public int getTelephoneTypeId() {

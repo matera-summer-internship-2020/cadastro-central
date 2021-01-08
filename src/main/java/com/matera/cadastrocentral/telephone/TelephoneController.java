@@ -28,12 +28,8 @@ public class TelephoneController {
 
     // 2. List one specific telephone if it exists in given client's set
     @GetMapping("/clients/{clientId}/telephones/{telephoneId}")
-    public Optional<Telephone> getByTelephoneId(@PathVariable("clientId") UUID clientId, @PathVariable("telephoneId") UUID telephoneId) {
-        if (telephoneService.findByClientIdAndTelephoneId(clientId, telephoneId).isPresent()) {
-            return telephoneService.findByClientIdAndTelephoneId(clientId, telephoneId);
-        } else {
-            throw new TelephoneService.TelephoneNotFound();
-        }
+    public Telephone getByTelephoneId(@PathVariable("clientId") UUID clientId, @PathVariable("telephoneId") UUID telephoneId) {
+        return telephoneService.findByTelephoneId(clientId, telephoneId);
     }
 
     // 3. Insert one telephone for one client
@@ -47,8 +43,8 @@ public class TelephoneController {
 
     // 4. Delete a specific telephone
     @DeleteMapping("clients/{clientId}/telephones/{telephoneId}")
-    public void deleteTelephone(@PathVariable("telephoneId") UUID telephoneId) {
-        telephoneService.deleteTelephone(telephoneId);
+    public void deleteTelephone(@PathVariable("clientId") UUID clientId, @PathVariable("telephoneId") UUID telephoneId) {
+        telephoneService.deleteTelephone(clientId, telephoneId);
     }
 
     // 5. Update telephone in database

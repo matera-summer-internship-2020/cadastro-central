@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,8 +27,9 @@ public class TelephoneService {
         return telephoneRepository.findAllByClientId(clientId);
     }
 
-    public Optional<Telephone> findByTelephoneId(UUID telephoneId) {
-        return telephoneRepository.findById(telephoneId);
+    public Telephone findByTelephoneId(UUID clientId, UUID telephoneId) {
+        return telephoneRepository.findByTelephoneIdAndClientId(clientId, telephoneId)
+                .orElseThrow(() -> new TelephoneNotFound());
     }
 
     public Telephone insertTelephone(UUID clientId, TelephoneDTO telephone) throws TelephoneAlreadyExists {
@@ -42,26 +44,9 @@ public class TelephoneService {
         }
     }
 
-    public void deleteTelephone(UUID telephoneId) {
-        Optional<Telephone> telephoneOptional = telephoneRepository.findById(telephoneId);
-        if (telephoneOptional.isPresent()) {
-            telephoneRepository.deleteById(telephoneId);
-        } else {
-            throw new TelephoneNotFound();
-        }
-    }
-
-    public Optional<Telephone> findByClientIdAndTelephoneId(UUID clientId, UUID telephoneId) {
-        List<Telephone> clientList = findAllTelephonesByClientId(clientId);
-        Stream<Telephone> telephoneStream = clientList.stream().filter(telephone -> telephone.getTelephoneId().equals(telephoneId));
-        Optional<Telephone> telephoneSpecific = telephoneStream.findFirst();
-        if (telephoneSpecific.isPresent()) {
-            return telephoneSpecific;
-        } else if (clientList.isEmpty()) {
-            throw new ClientNotFound();
-        } else {
-            throw new TelephoneNotFound();
-        }
+    public void deleteTelephone(UUID clientId, UUID telephoneId) {
+        telephoneRepository.delete(telephoneRepository.findByTelephoneIdAndClientId(clientId, telephoneId)
+                .orElseThrow(() -> new TelephoneNotFound()));
     }
 
     public Telephone alterTelephoneByTelephoneId(TelephoneDTO telephone) {
@@ -84,13 +69,13 @@ public class TelephoneService {
     }
 
     // Exceptions
-    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "telephone not found")
+    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Telephone not found")
     public static class TelephoneNotFound extends RuntimeException {
     }
-    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "client not found")
+    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Client not found")
     public static class ClientNotFound extends RuntimeException {
     }
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "telephone already exists")
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Telephone already exists")
     public static class TelephoneAlreadyExists extends BadHttpRequest {
     }
 }

@@ -1,11 +1,10 @@
 package com.matera.cadastrocentral.telephone;
 
-import com.matera.cadastrocentral.client.ClientRepository;
 import com.matera.cadastrocentral.client.ClientService;
 import javassist.tools.web.BadHttpRequest;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Example;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -19,13 +18,13 @@ import java.util.stream.Stream;
 public class TelephoneService {
 
     @Autowired
-    public TelephoneService(TelephoneRepository telephoneRepository, ClientRepository clientRepository) {
+    public TelephoneService(TelephoneRepository telephoneRepository, ClientService clientService) {
         this.telephoneRepository = telephoneRepository;
-        this.clientRepository = clientRepository;
+        this.clientService = clientService;
     }
 
     private final TelephoneRepository telephoneRepository;
-    private final ClientRepository clientRepository;
+    private final ClientService clientService;
 
     public List<Telephone> findAllTelephonesByClientId(UUID clientId) {
         return telephoneRepository.findAllByClientId(clientId);
@@ -79,7 +78,6 @@ public class TelephoneService {
     }
 
     public Telephone patchTelephonePropertyByTelephoneId(UUID telephoneId, TelephoneDTO telephone) {
-        ClientService clientService = new ClientService(clientRepository, null);
         Optional<Telephone> optionalTelephone = telephoneRepository.findById(telephoneId);
         if (optionalTelephone.isPresent()) {
             Telephone auxTelephone = optionalTelephone.get();

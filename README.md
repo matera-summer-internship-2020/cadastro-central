@@ -16,7 +16,7 @@ Before running our application, you have to create a postgres database locally w
 * Username: `postgres`
 * Password: `postgres`
 
-Also, we used the [Lombok library](https://projectlombok.org/) in the project, so if you open it in an IDE, like IntelliJ, you should install a plugin to analyze it better.
+Also, we used the [Lombok library](https://projectlombok.org/) in the project, so if you open it in an IDE, like IntelliJ, you should install a plugin to run the application without errors.
 
 With the created base, you just need to run the application, and it will create the tables by itself because we are using [Liquibase library](https://www.liquibase.org/). After that you can access our documentation as shown below.  
 
@@ -41,7 +41,7 @@ Antes de rodar a aplicação, você tem que criar um banco de dados postgres loc
 * Usuário: `postgres`
 * Senha: `postgres`
 
-Nós usamos a [biblioteca Lombok](https://projectlombok.org/) neste projeto, então caso for abri-lo em uma IDE, como IntelliJ, você deveria instalar um plugin para visualizá-lo melhor.
+Nós usamos a [biblioteca Lombok](https://projectlombok.org/) neste projeto, então caso for abri-lo em uma IDE, como IntelliJ, você deve instalar um plugin para conseguir rodar a aplicação sem erros.
 
 Com o banco criado, você só precisa rodar a aplicação, e ela criará as tabelas sozinha porque estamos usando a [biblioteca do Liquibase](https://www.liquibase.org/). Feito isso, você pode acessar a nossa documentação como mostrado abaixo.  
 

@@ -1,4 +1,4 @@
-package com.matera.cadastrocentral.identitydocument;
+package com.matera.cadastrocentral.identitydocumenttype;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

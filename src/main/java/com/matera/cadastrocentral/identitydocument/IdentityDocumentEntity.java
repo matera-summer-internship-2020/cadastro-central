@@ -2,6 +2,7 @@ package com.matera.cadastrocentral.identitydocument;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.matera.cadastrocentral.client.Client;
+import com.matera.cadastrocentral.identitydocumenttype.IdentityDocumentTypeEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

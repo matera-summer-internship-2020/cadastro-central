@@ -10,5 +10,5 @@ public interface TelephoneProjection {
     int getTelephoneTypeId();
     String getNumber();
     String getDdd();
-    Client getClient();
+    Client getClientId();
 }

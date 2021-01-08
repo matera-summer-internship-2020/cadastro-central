@@ -24,7 +24,7 @@ public class TelephoneDTO implements TelephoneProjection {
     private Client client;
 
     @Override
-    public Client getClient() {
+    public Client getClientId() {
         return client;
     }
 

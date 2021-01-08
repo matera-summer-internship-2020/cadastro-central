@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -20,7 +19,7 @@ public class Telephone implements TelephoneProjection {
         this.telephoneTypeId = telephoneDTO.getTelephoneTypeId();
         this.number = telephoneDTO.getNumber();
         this.ddd = telephoneDTO.getDdd();
-        this.client = telephoneDTO.getClient();
+        this.clientId = telephoneDTO.getClientId();
     }
 
     public Telephone(UUID telephoneId, int telephoneTypeId, String number, String ddd, Client client) {
@@ -29,7 +28,7 @@ public class Telephone implements TelephoneProjection {
         this.telephoneTypeId = telephoneTypeId;
         this.number = number;
         this.ddd = ddd;
-        this.client = client;
+        this.clientId = client;
     }
 
     @PrePersist
@@ -51,6 +50,6 @@ public class Telephone implements TelephoneProjection {
     @ManyToOne
     @JoinColumn(name = "client_id")
     @JsonBackReference
-    private Client client;
+    private Client clientId;
 
 }

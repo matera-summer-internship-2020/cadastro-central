@@ -1,5 +1,7 @@
 package com.matera.cadastrocentral.telephone;
 
+import com.matera.cadastrocentral.client.Client;
+import com.matera.cadastrocentral.client.ClientService;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.data.domain.Example;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +18,17 @@ import java.util.stream.Stream;
 public class TelephoneService {
 
     @Autowired
-    public TelephoneService(TelephoneRepository telephoneRepository) {
+    public TelephoneService(TelephoneRepository telephoneRepository, ClientService clientService) {
         this.telephoneRepository = telephoneRepository;
+        this.clientService = clientService;
     }
 
     private final TelephoneRepository telephoneRepository;
+    private final ClientService clientService;
 
     public List<Telephone> findAllTelephonesByClientId(UUID clientId) {
-        return telephoneRepository.findAllByClientId(clientId);
+        Client client = clientService.getClientById(clientId).orElseThrow(ClientNotFound::new);
+        return telephoneRepository.findAllByClientId(client);
     }
 
     public Optional<Telephone> findByTelephoneId(UUID telephoneId) {
@@ -68,8 +73,8 @@ public class TelephoneService {
         Optional<Telephone> optionalTelephone = telephoneRepository.findById(telephone.getTelephoneId());
         if (optionalTelephone.isPresent()) {
             Telephone auxTelephone = optionalTelephone.get();
-            auxTelephone.getClient().setClientId(Optional.ofNullable(telephone.getClient().getClientId())
-                                    .orElse(optionalTelephone.get().getClient().getClientId()));
+            auxTelephone.getClientId().setClientId(Optional.ofNullable(telephone.getClientId().getClientId())
+                                    .orElse(optionalTelephone.get().getClientId().getClientId()));
             auxTelephone.setTelephoneTypeId(Optional.of(telephone.getTelephoneTypeId())
                                     .orElse(optionalTelephone.get().getTelephoneTypeId()));
             auxTelephone.setNumber(Optional.ofNullable(telephone.getNumber())

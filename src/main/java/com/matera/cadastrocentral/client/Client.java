@@ -27,7 +27,7 @@ public class Client {
     @JsonManagedReference
     private List<IdentityDocumentEntity> identityDocumentEntityList;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "clientId", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Telephone> telephoneList;
 

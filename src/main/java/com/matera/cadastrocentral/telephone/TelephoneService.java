@@ -87,8 +87,8 @@ public class TelephoneService {
                     auxTelephone.setClientId(telephone.getClientId());
                 }
             }
-            if (telephone.getTelephoneTypeId() != null)
-                auxTelephone.setTelephoneTypeId(telephone.getTelephoneTypeId());
+            if (telephone.getTelephoneType() != null)
+                auxTelephone.setTelephoneType(telephone.getTelephoneType());
             if (StringUtils.isNotBlank(telephone.getNumber())) {
                 auxTelephone.setNumber(telephone.getNumber());
             }

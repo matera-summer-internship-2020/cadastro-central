@@ -1,5 +1,7 @@
 package com.matera.cadastrocentral.telephone;
 
+import com.matera.cadastrocentral.telephonetype.TelephoneType;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -11,15 +13,15 @@ public class Telephone implements TelephoneProjection {
     public Telephone(TelephoneDTO telephoneDTO) {
         this.telephoneId = telephoneDTO.getTelephoneId();
         this.clientId = telephoneDTO.getClientId();
-        this.telephoneTypeId = telephoneDTO.getTelephoneTypeId();
+        this.telephoneType = telephoneDTO.getTelephoneType();
         this.number = telephoneDTO.getNumber();
         this.ddd = telephoneDTO.getDdd();
     }
 
-    public Telephone(UUID telephoneId, UUID clientId, int telephoneTypeId, String number, String ddd) {
+    public Telephone(UUID telephoneId, UUID clientId, TelephoneType telephoneType, String number, String ddd) {
         this.telephoneId = telephoneId;
         this.clientId = clientId;
-        this.telephoneTypeId = telephoneTypeId;
+        this.telephoneType = telephoneType;
         this.number = number;
         this.ddd = ddd;
     }
@@ -39,7 +41,6 @@ public class Telephone implements TelephoneProjection {
     }
 
     @Override
-    @ManyToOne
     public UUID getClientId() {
         return clientId;
     }
@@ -49,13 +50,12 @@ public class Telephone implements TelephoneProjection {
     }
 
     @Override
-    @OneToOne
-    public Integer getTelephoneTypeId() {
-        return telephoneTypeId;
+    public TelephoneType getTelephoneType() {
+        return telephoneType;
     }
 
-    public void setTelephoneTypeId(int telephoneTypeId) {
-        this.telephoneTypeId = telephoneTypeId;
+    public void setTelephoneType(TelephoneType telephoneType) {
+        this.telephoneType = telephoneType;
     }
 
     @Override
@@ -81,7 +81,9 @@ public class Telephone implements TelephoneProjection {
 
     private UUID clientId;
 
-    Integer telephoneTypeId;
+    @ManyToOne
+    @JoinColumn(name = "telephone_type_id")
+    TelephoneType telephoneType;
 
     String number;
 

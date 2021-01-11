@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.matera.cadastrocentral.client.Client;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.matera.cadastrocentral.telephonetype.TelephoneType;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -15,20 +16,18 @@ public class Telephone implements TelephoneProjection {
 
     public Telephone(TelephoneDTO telephoneDTO) {
         this.telephoneId = telephoneDTO.getTelephoneId();
-//        this.clientId = telephoneDTO.getClientId();
-        this.telephoneTypeId = telephoneDTO.getTelephoneTypeId();
+        this.telephoneType = telephoneDTO.getTelephoneType();
         this.number = telephoneDTO.getNumber();
         this.ddd = telephoneDTO.getDdd();
         this.clientId = telephoneDTO.getClientId();
     }
 
-    public Telephone(UUID telephoneId, int telephoneTypeId, String number, String ddd, Client client) {
+    public Telephone(UUID telephoneId, Client clientId, TelephoneType telephoneType, String number, String ddd) {
         this.telephoneId = telephoneId;
-//        this.clientId = clientId;
-        this.telephoneTypeId = telephoneTypeId;
+        this.clientId = clientId;
+        this.telephoneType = telephoneType;
         this.number = number;
         this.ddd = ddd;
-        this.clientId = client;
     }
 
     @PrePersist
@@ -39,9 +38,9 @@ public class Telephone implements TelephoneProjection {
     @Id
     private UUID telephoneId;
 
-//    private UUID clientId;
-
-    int telephoneTypeId;
+    @ManyToOne
+    @JoinColumn(name = "telephone_type_id")
+    TelephoneType telephoneType;
 
     String number;
 

@@ -26,6 +26,14 @@ public class IdentityDocumentEntity {
     @JsonBackReference
     private Client client;
 
+    /* Constructors */
+
+    public IdentityDocumentEntity(IdentityDocumentDTO identityDocumentDTO) {
+        this.identityDocumentTypeEntity = identityDocumentDTO.getIdentityDocumentTypeEntity();
+        this.identityDocument = identityDocumentDTO.getIdentityDocument();
+        this.client = identityDocumentDTO.getClient();
+    }
+
     @PrePersist
     public void prePersist(){
         this.identityDocumentId = UUID.randomUUID();

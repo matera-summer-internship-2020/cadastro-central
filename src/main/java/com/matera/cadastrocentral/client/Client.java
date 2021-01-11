@@ -14,7 +14,6 @@ import java.util.UUID;
 @Entity
 @Data
 @NoArgsConstructor
-//@SecondaryTable(name = "telephone")
 public class Client {
 
     @Id

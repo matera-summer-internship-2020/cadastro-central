@@ -22,6 +22,9 @@ public class TelephoneDTO implements TelephoneProjection {
 
     private Client client;
 
+    public void setClientId(Client client) {
+        this.client = client;
+    }
     @Override
     public Client getClientId() {
         return client;

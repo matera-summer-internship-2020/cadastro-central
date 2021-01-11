@@ -28,8 +28,8 @@ public class TelephoneService {
     private final ClientService clientService;
 
     public List<Telephone> findAllTelephonesByClientId(UUID clientId) {
-        Client client = clientService.getClientById(clientId).orElseThrow(ClientNotFound::new);
-        return telephoneRepository.findAllByClientId(client);
+        Optional<Client> client = clientService.getClientById(clientId);
+        return telephoneRepository.findAllByClientId(client.get());
     }
 
     public Optional<Telephone> findByTelephoneId(UUID telephoneId) {
@@ -37,9 +37,11 @@ public class TelephoneService {
     }
 
     public Telephone insertTelephone(UUID clientId, TelephoneDTO telephone) throws TelephoneAlreadyExists {
+        Optional<Client> client = clientService.getClientById(clientId);
         // Checks if the input already exists in database before inserting
         if (telephoneRepository.findAll(Example.of(new Telephone(telephone))).isEmpty()) {
             Telephone auxPhone = new Telephone(telephone);
+            auxPhone.setClientId(client.get());
             auxPhone.setTelephoneId(telephone.getTelephoneId());
             telephoneRepository.save(auxPhone);
             return auxPhone;

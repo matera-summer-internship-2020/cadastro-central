@@ -29,4 +29,12 @@ public class IdentityDocumentService {
         Optional<Client> client = clientService.getClientById(clientId);
         return identityDocumentRepository.findAllDocumentsByClient(client.get());
     }
+
+    // 2. Get a specific document from a specific client.
+    public Optional<IdentityDocumentEntity> getDocumentByDocumentIdAndClientId(
+            final UUID clientId, final UUID documentId) {
+        Optional<Client> client = clientService.getClientById(clientId);
+        return identityDocumentRepository.findDocumentByIdentityDocumentIdAndClient(
+                client.get(), documentId);
+    }
 }

@@ -10,6 +10,10 @@ import java.util.UUID;
 @Service
 public class AddressService {
 
+    public AddressService(AddressRepository addressRepository) {
+        this.addressRepository = addressRepository;
+    }
+
     @Autowired
     private AddressRepository addressRepository;
 

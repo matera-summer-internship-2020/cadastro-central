@@ -23,8 +23,8 @@ public class AddressController {
         return addressService.getAddressById(addressId);
     }
 
-    @GetMapping
-    List<Address> getAddressListByClientId(@PathVariable(value = "clientId", required = true) UUID clientId) {
+    @GetMapping("/client/{clientId}")
+    List<Address> getAddressListByClientId(@PathVariable UUID clientId) {
         return addressService.getAddressListByClientId(clientId);
     }
 

@@ -1,6 +1,8 @@
 package com.matera.cadastrocentral.client;
 
 import com.matera.cadastrocentral.identitydocument.IdentityDocumentRepository;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.TransientPropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -77,15 +79,14 @@ public class ClientService {
         }
     }
 
-    // 4. Alter a client information in the database.
-    public Client alterClient(UUID clientId, ClientDTO clientDTO) {
+    // 4. Alter all client information in the database.
+    // All the ClientDTO information must be in the payload.
+    public Client alterAllClientInformation(UUID clientId, ClientDTO clientDTO) {
         try {
             Client alteredClient = clientRepository.getOne(clientId);
-            alteredClient.setName(Optional.ofNullable(
-                    clientDTO.getName()).orElse(alteredClient.getName()));
-            alteredClient.setMaritalStatusEntity(Optional.ofNullable(
-                    clientDTO.getMaritalStatusEntity()).orElse(alteredClient.getMaritalStatusEntity()));
-
+            ClientValidator.validate(clientDTO);
+            alteredClient.setName(clientDTO.getName());
+            alteredClient.setMaritalStatusEntity(clientDTO.getMaritalStatusEntity());
             return clientRepository.save(alteredClient);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(
@@ -95,7 +96,53 @@ public class ClientService {
         }
     }
 
-    // 5. Delete a client from the database
+    // 5. Alter some client information in the database.
+    // It's not necessary to pass all the ClientDTO information in the payload.
+    public Client alterSomeClientInformation(UUID clientId, ClientDTO clientDTO) {
+        try {
+            Client alteredClient = clientRepository.getOne(clientId);
+            if(clientDTO.getName() == null &&
+                    clientDTO.getMaritalStatusEntity() == null){
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        "At least one client information must be informed to update it!"
+                );
+            }
+            if(StringUtils.isNotBlank(clientDTO.getName())){
+                alteredClient.setName(clientDTO.getName());
+            }
+            if(clientDTO.getMaritalStatusEntity() != null){
+                if(clientDTO.getMaritalStatusEntity().getMaritalStatusId() == null){
+                    throw new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST,
+                            "The request must specify the correct marital status!"
+                    );
+                }
+                if(clientDTO.getMaritalStatusEntity().getMaritalStatusId() < 1 ||
+                        clientDTO.getMaritalStatusEntity().getMaritalStatusId() > 3){
+                    throw new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST,
+                            "Invalid option of marital status! Choose a valid one."
+                    );
+                }
+                alteredClient.setMaritalStatusEntity(clientDTO.getMaritalStatusEntity());
+            }
+            return clientRepository.save(alteredClient);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Client ID does not exist in the database! Try a valid one."
+            );
+        } catch (TransientPropertyValueException e){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    e.getTransientEntityName() + " reference doesn't exist in the database!" +
+                            "Try a valid one."
+            );
+        }
+    }
+
+    // 6. Delete a client from the database
     public void deleteClient(final UUID clientId) {
         try {
             clientRepository.deleteById(clientId);

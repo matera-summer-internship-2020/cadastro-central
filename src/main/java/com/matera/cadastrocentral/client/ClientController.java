@@ -39,16 +39,27 @@ public class ClientController {
         return clientService.insertClient(clientDTO);
     }
 
-    // 4. Alter a client information in the database.
+    // 4. Alter all client information in the database.
+    // All the ClientDTO information must be in the payload.
     @PutMapping("/{clientId}")
-    public Client alterClient(
+    public Client alterAllClientInformation(
             @PathVariable("clientId") final UUID clientId,
             @RequestBody final ClientDTO clientDTO
     ) {
-        return clientService.alterClient(clientId, clientDTO);
+        return clientService.alterAllClientInformation(clientId, clientDTO);
     }
 
-    // 5. Delete a client from the database
+    // 5. Alter some client information in the database.
+    // It's not necessary to pass all the ClientDTO information in the payload.
+    @PatchMapping("/{clientId}")
+    public Client alterSomeClientInformation(
+            @PathVariable("clientId") final UUID clientId,
+            @RequestBody final ClientDTO clientDTO
+    ) {
+        return clientService.alterSomeClientInformation(clientId, clientDTO);
+    }
+
+    // 6. Delete a client from the database
     @DeleteMapping("/{clientId}")
     public void deleteClient(@PathVariable final UUID clientId) {
         clientService.deleteClient(clientId);

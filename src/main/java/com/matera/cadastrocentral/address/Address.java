@@ -1,15 +1,24 @@
 package com.matera.cadastrocentral.address;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.matera.cadastrocentral.client.Client;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.util.UUID;
 
+
+@Data
+@NoArgsConstructor
 @Entity
 public class Address {
 
-    private @Id UUID addressId;
-    private UUID clientId;
+    @Id
+    private  UUID addressId;
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    @JsonBackReference
+    private Client clientId;
     private String streetName;
     private String district;
     private String state;
@@ -18,76 +27,20 @@ public class Address {
     private int number;
     private String city;
 
+    public Address(AddressDTO newAddress) {
+        this.addressId = newAddress.getAddressId();
+        this.clientId = newAddress.getClient();
+        this.streetName = newAddress.getStreetName();
+        this.district = newAddress.getDistrict();
+        this.state = newAddress.getState();
+        this.zipCode = newAddress.getZipCode();
+        this.complement = newAddress.getComplement();
+        this.number = newAddress.getNumber();
+        this.city = newAddress.getCity();
+    }
 
     @PrePersist
     public void prePersist() {
         this.addressId = UUID.randomUUID();
     }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getStreetName() {
-        return streetName;
-    }
-
-    public void setStreetName(String streetName) {
-        this.streetName = streetName;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public UUID getAddressId() {
-        return addressId;
-    }
-
-    public UUID getClientId() {
-        return clientId;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getComplement() {
-        return complement;
-    }
-
-    public void setComplement(String complement) {
-        this.complement = complement;
-    }
-
-    public int getNumber() {
-        return this.number;
-    }
-
-    public void setNumber( int number) {
-        this.number = number;
-    }
-
-
-
 }

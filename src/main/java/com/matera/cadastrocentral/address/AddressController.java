@@ -7,33 +7,32 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/addresses")
 public class AddressController {
 
     @Autowired
     private AddressService addressService;
 
-    @PostMapping
-    Address newAddress(@RequestBody Address newAddress) {
-        return addressService.insertAddress(newAddress);
+    @PostMapping("/clients/{clientId}/addresses")
+    Address newAddress(@PathVariable UUID clientId, @RequestBody AddressDTO newAddress) {
+        return addressService.insertAddress(clientId, newAddress);
     }
 
-    @GetMapping("/{addressId}")
+    @GetMapping("/addresses/{addressId}")
     Address getAddressById(@PathVariable UUID addressId) {
         return addressService.getAddressById(addressId);
     }
 
-    @GetMapping
-    List<Address> getAddressListByClientId(@RequestParam(value = "clientId", required = true) UUID clientId) {
+    @GetMapping("/clients/{clientId}/addresses")
+    List<Address> getAddressListByClientId(@PathVariable UUID clientId) {
         return addressService.getAddressListByClientId(clientId);
     }
 
-    @PutMapping("/{addressId}")
-    Address alterAddress(@PathVariable UUID addressId, @RequestBody Address newAddress) {
+    @PutMapping("/addresses/{addressId}")
+    Address alterAddress(@PathVariable UUID addressId, @RequestBody AddressDTO newAddress) {
         return addressService.alterAddress(addressId, newAddress);
     }
 
-    @DeleteMapping("/{addressId}")
+    @DeleteMapping("/addresses/{addressId}")
     void deleteAddress(@PathVariable UUID addressId) {
         addressService.deleteAddress(addressId);
     }

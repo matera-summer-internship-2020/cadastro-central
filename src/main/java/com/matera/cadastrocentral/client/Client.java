@@ -1,6 +1,7 @@
 package com.matera.cadastrocentral.client;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.matera.cadastrocentral.address.Address;
 import com.matera.cadastrocentral.identitydocument.IdentityDocumentEntity;
 import com.matera.cadastrocentral.maritalstatus.MaritalStatusEntity;
 import com.matera.cadastrocentral.telephone.Telephone;
@@ -25,12 +26,14 @@ public class Client {
     @OneToMany(mappedBy = "client", cascade=CascadeType.ALL, orphanRemoval=true)
     @JsonManagedReference
     private List<IdentityDocumentEntity> identityDocumentEntityList;
+    @OneToMany(mappedBy = "clientId", cascade=CascadeType.ALL, orphanRemoval=true)
+    @JsonManagedReference
+    private List<Address> addressList;
     private String password;
 
     @OneToMany(mappedBy = "clientId", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Telephone> telephoneList;
-
     /* Constructors */
 
     public Client(ClientDTO clientDTO){

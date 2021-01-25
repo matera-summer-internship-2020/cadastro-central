@@ -2,6 +2,7 @@ package com.matera.cadastrocentral.client;
 
 import com.matera.cadastrocentral.identitydocument.IdentityDocumentRepository;
 import com.matera.cadastrocentral.telephone.TelephoneRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -59,13 +60,21 @@ public class ClientService {
             // contains at least one identity document
             if(clientDTO.getIdentityDocumentEntityList() != null &&
                     !clientDTO.getIdentityDocumentEntityList().isEmpty()) {
-                UUID clientId = UUID.randomUUID();
-                Client client = new Client(clientDTO);
-                client.setClientId(clientId);
-                client.getIdentityDocumentEntityList().forEach(
-                        identityDocumentEntity -> identityDocumentEntity.setClient(client)
-                );
-                return clientRepository.save(client);
+                if(StringUtils.isNumeric(clientDTO.getPassword()) &&
+                        clientDTO.getPassword().length() == 6){
+                    UUID clientId = UUID.randomUUID();
+                    Client client = new Client(clientDTO);
+                    client.setClientId(clientId);
+                    client.getIdentityDocumentEntityList().forEach(
+                            identityDocumentEntity -> identityDocumentEntity.setClient(client)
+                    );
+                    return clientRepository.save(client);
+                } else{
+                    throw new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST,
+                            "Enter a 6 digit numeric password!"
+                    );
+                }
             } else {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,

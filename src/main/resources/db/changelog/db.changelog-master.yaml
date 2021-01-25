@@ -352,19 +352,26 @@ databaseChangeLog:
                     - nullable: false
 
   - changeSet:
-      id:  rename reference column to number
+      id:  drop reference column from address table
       author:  Gabriel Seabra
       changes:
-        -  renameColumn:
-            newColumnName:  number
-            oldColumnName:  reference
+        -  dropColumn:
+            catalogName:  cat
+            columnName:  reference
+            columns:
+              -  column:
+                   name:  reference
             tableName:  address
 
   - changeSet:
-      id:  change number column DataType to int
-      author:  Gabriel Seabra
+      id: add number column into address table
+      author: Gabriel Seabra
       changes:
-        -  modifyDataType:
-            columnName:  number
-            newDataType:  int
-            tableName:  address
+        - addColumn:
+            tableName: address
+            columns:
+              - column:
+                  name: number
+                  type: int
+                  constraints:
+                    - nullable: false

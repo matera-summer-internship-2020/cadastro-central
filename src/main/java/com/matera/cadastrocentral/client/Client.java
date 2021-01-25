@@ -41,5 +41,6 @@ public class Client {
         this.maritalStatusEntity = clientDTO.getMaritalStatusEntity();
         this.identityDocumentEntityList = clientDTO.getIdentityDocumentEntityList();
         this.telephoneList = clientDTO.getTelephoneList();
+        this.password = clientDTO.getPassword();
     }
 }

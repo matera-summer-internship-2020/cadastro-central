@@ -53,4 +53,10 @@ public class ClientController {
     public void deleteClient(@PathVariable final UUID clientId) {
         clientService.deleteClient(clientId);
     }
+
+    // 6. Get a client by CPF to make a transfer
+    @GetMapping("/transfer/clientReceiver/{clientCpf}")
+    public Client getClientByCPF(@PathVariable final String clientCpf){
+        return clientService.getClientByCPF(clientCpf);
+    }
 }

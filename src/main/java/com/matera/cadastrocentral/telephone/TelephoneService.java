@@ -50,22 +50,24 @@ public class TelephoneService {
     }
 
     public Telephone alterTelephoneByTelephoneId(TelephoneDTO telephone) {
+
+        UUID clientId = telephone.getClientId();
+        UUID telephoneId = telephone.getTelephoneId();
+
         Optional<Telephone> optionalTelephone = telephoneRepository.findById(telephone.getTelephoneId());
-        if (optionalTelephone.isPresent()) {
-            Telephone auxTelephone = optionalTelephone.get();
-            auxTelephone.setClientId(Optional.ofNullable(telephone.getClientId())
-                                    .orElse(optionalTelephone.get().getClientId()));
-            auxTelephone.setTelephoneTypeId(Optional.of(telephone.getTelephoneTypeId())
-                                    .orElse(optionalTelephone.get().getTelephoneTypeId()));
-            auxTelephone.setNumber(Optional.ofNullable(telephone.getNumber())
-                                    .orElse(optionalTelephone.get().getNumber()));
-            auxTelephone.setDdd(Optional.ofNullable(telephone.getDdd())
-                                    .orElse(optionalTelephone.get().getDdd()));
-            telephoneRepository.save(auxTelephone);
-            return auxTelephone;
-        } else {
-            throw new TelephoneNotFound();
-        }
+
+        Telephone telephoneEntity = telephoneRepository.findByTelephoneIdAndClientId(clientId, telephoneId)
+                .orElseThrow(() -> new TelephoneNotFound());
+
+        telephoneEntity.setTelephoneTypeId(Optional.of(telephone.getTelephoneTypeId())
+                .orElse(optionalTelephone.get().getTelephoneTypeId()));
+        telephoneEntity.setNumber(Optional.ofNullable(telephone.getNumber())
+                .orElse(optionalTelephone.get().getNumber()));
+        telephoneEntity.setDdd(Optional.ofNullable(telephone.getDdd())
+                .orElse(optionalTelephone.get().getDdd()));
+
+        telephoneRepository.save(telephoneEntity);
+        return telephoneEntity;
     }
 
     // Exceptions

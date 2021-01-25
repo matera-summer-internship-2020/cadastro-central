@@ -375,3 +375,12 @@ databaseChangeLog:
                   type: int
                   constraints:
                     - nullable: false
+
+  - changeSet:
+      id: change number type to string
+      author: Gabriel Oswaldo
+      changes:
+        - modifyDataType:
+            tableName: client
+            columnName: password
+            newDataType: varchar(6)

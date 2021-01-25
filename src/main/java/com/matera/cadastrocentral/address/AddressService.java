@@ -15,11 +15,14 @@ import java.util.UUID;
 @Service
 public class AddressService {
 
-    @Autowired
     private AddressRepository addressRepository;
+    private ClientService clientService;
 
     @Autowired
-    private ClientService clientService;
+    public AddressService(AddressRepository addressRepository, ClientService clientService) {
+        this.addressRepository = addressRepository;
+        this.clientService = clientService;
+    }
 
     public Address getAddressById(UUID id) {
         return addressRepository.findById(id).orElse(null);

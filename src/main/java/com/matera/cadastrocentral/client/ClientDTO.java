@@ -21,4 +21,6 @@ public class ClientDTO {
     private List<IdentityDocumentEntity> identityDocumentEntityList;
     @NotNull
     private List<Telephone> telephoneList;
+    @NotNull
+    private Integer password;
 }

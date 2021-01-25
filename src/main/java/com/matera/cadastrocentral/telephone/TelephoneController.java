@@ -48,7 +48,7 @@ public class TelephoneController {
     }
 
     // 5. Update telephone in database
-    @PutMapping("/clients/{clientId}/telephones")
+    @PutMapping("/clients/{clientId}/telephones/{telephoneId}")
     public Telephone alterTelephoneByTelephoneId(@RequestBody @Validated TelephoneDTO telephone) {
         return telephoneService.alterTelephoneByTelephoneId(telephone);
     }

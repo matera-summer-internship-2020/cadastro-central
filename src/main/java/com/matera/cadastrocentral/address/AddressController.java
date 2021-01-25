@@ -24,7 +24,7 @@ public class AddressController {
     }
 
     @GetMapping
-    List<Address> getAddressListByClientId(@RequestParam(value="clientId", required = true) UUID clientId) {
+    List<Address> getAddressListByClientId(@RequestParam(value = "clientId", required = true) UUID clientId) {
         return addressService.getAddressListByClientId(clientId);
     }
 

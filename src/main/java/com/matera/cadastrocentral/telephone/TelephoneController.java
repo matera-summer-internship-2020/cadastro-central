@@ -1,9 +1,11 @@
 package com.matera.cadastrocentral.telephone;
 
+import com.matera.cadastrocentral.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.executable.ValidateOnExecution;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,7 +31,7 @@ public class TelephoneController {
     // 2. List one specific telephone if it exists in given client's set
     @GetMapping("/clients/{clientId}/telephones/{telephoneId}")
     public Telephone getByTelephoneId(@PathVariable("clientId") UUID clientId, @PathVariable("telephoneId") UUID telephoneId) {
-        return telephoneService.findByTelephoneId(clientId, telephoneId);
+        return telephoneService.findByTelephoneId(telephoneId);
     }
 
     // 3. Insert one telephone for one client
@@ -37,14 +39,13 @@ public class TelephoneController {
     public Telephone insertTelephone(@PathVariable("clientId") UUID clientId,
                                      @RequestBody @Validated TelephoneDTO telephone)
             throws TelephoneService.TelephoneAlreadyExists {
-        telephone.setClientId(clientId);
         return telephoneService.insertTelephone(clientId, telephone);
     }
 
     // 4. Delete a specific telephone
     @DeleteMapping("clients/{clientId}/telephones/{telephoneId}")
     public void deleteTelephone(@PathVariable("clientId") UUID clientId, @PathVariable("telephoneId") UUID telephoneId) {
-        telephoneService.deleteTelephone(clientId, telephoneId);
+        telephoneService.deleteTelephone(telephoneId);
     }
 
     // 5. Update telephone in database
@@ -53,5 +54,12 @@ public class TelephoneController {
         return telephoneService.alterTelephoneByTelephoneId(telephone);
     }
 
+    // 6. Update telephone properties (one or more)
+    @PatchMapping("/telephones/{telephoneId}")
+    public Telephone patchTelephoneByTelephoneId(@PathVariable("telephoneId") UUID telephoneId,
+                                                 @RequestBody TelephoneDTO telephone) {
+        telephone.setTelephoneId(telephoneId);
+        return telephoneService.patchTelephonePropertyByTelephoneId(telephoneId, telephone);
+    }
 
 }

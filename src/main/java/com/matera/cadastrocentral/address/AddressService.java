@@ -3,6 +3,7 @@ package com.matera.cadastrocentral.address;
 import com.matera.cadastrocentral.client.Client;
 import com.matera.cadastrocentral.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,7 +30,9 @@ public class AddressService {
         return addressRepository.findAllByClientId(client);
     }
 
-    public Address insertAddress(Address newAddress) {
+    public Address insertAddress(UUID clientId, Address newAddress) {
+        Optional<Client> client = clientService.getClientById(clientId);
+
         return addressRepository.save(newAddress);
     }
 

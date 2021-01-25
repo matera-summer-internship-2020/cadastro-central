@@ -1,10 +1,15 @@
 package com.matera.cadastrocentral.address;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.matera.cadastrocentral.client.Client;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.UUID;
 
+
+@Data
+@NoArgsConstructor
 @Entity
 public class Address {
 

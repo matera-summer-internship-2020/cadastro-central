@@ -38,9 +38,4 @@ public class Client {
         this.identityDocumentEntityList = clientDTO.getIdentityDocumentEntityList();
         this.telephoneList = clientDTO.getTelephoneList();
     }
-
-    @PrePersist
-    public void prePersist(){
-        this.clientId = UUID.randomUUID();
-    }
 }

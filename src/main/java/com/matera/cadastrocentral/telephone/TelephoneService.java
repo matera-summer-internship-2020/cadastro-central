@@ -1,5 +1,6 @@
 package com.matera.cadastrocentral.telephone;
 
+import com.matera.cadastrocentral.client.Client;
 import com.matera.cadastrocentral.client.ClientService;
 import javassist.tools.web.BadHttpRequest;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +28,8 @@ public class TelephoneService {
     private final ClientService clientService;
 
     public List<Telephone> findAllTelephonesByClientId(UUID clientId) {
-        return telephoneRepository.findAllByClientId(clientId);
+        Optional<Client> client = clientService.getClientById(clientId);
+        return telephoneRepository.findAllByClientId(client.get());
     }
 
     public Optional<Telephone> findByTelephoneId(UUID telephoneId) {
@@ -35,9 +37,11 @@ public class TelephoneService {
     }
 
     public Telephone insertTelephone(UUID clientId, TelephoneDTO telephone) throws TelephoneAlreadyExists {
+        Optional<Client> client = clientService.getClientById(clientId);
         // Checks if the input already exists in database before inserting
         if (telephoneRepository.findAll(Example.of(new Telephone(telephone))).isEmpty()) {
             Telephone auxPhone = new Telephone(telephone);
+            auxPhone.setClientId(client.get());
             auxPhone.setTelephoneId(telephone.getTelephoneId());
             telephoneRepository.save(auxPhone);
             return auxPhone;
@@ -81,12 +85,6 @@ public class TelephoneService {
         Optional<Telephone> optionalTelephone = telephoneRepository.findById(telephoneId);
         if (optionalTelephone.isPresent()) {
             Telephone auxTelephone = optionalTelephone.get();
-            // Check if client input exists
-            if (telephone.getClientId() != null) {
-                if (clientService.getClientById(telephone.getClientId()).isPresent()) {
-                    auxTelephone.setClientId(telephone.getClientId());
-                }
-            }
             if (telephone.getTelephoneType() != null)
                 auxTelephone.setTelephoneType(telephone.getTelephoneType());
             if (StringUtils.isNotBlank(telephone.getNumber())) {

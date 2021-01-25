@@ -1,5 +1,6 @@
 package com.matera.cadastrocentral.telephone;
 
+import com.matera.cadastrocentral.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,6 @@ public class TelephoneController {
     public Telephone insertTelephone(@PathVariable("clientId") UUID clientId,
                                      @RequestBody @Validated TelephoneDTO telephone)
             throws TelephoneService.TelephoneAlreadyExists {
-        telephone.setClientId(clientId);
         return telephoneService.insertTelephone(clientId, telephone);
     }
 

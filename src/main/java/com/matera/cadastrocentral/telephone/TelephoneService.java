@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @Service
 public class TelephoneService {
@@ -32,8 +31,9 @@ public class TelephoneService {
         return telephoneRepository.findAllByClientId(client.get());
     }
 
-    public Optional<Telephone> findByTelephoneId(UUID telephoneId) {
-        return telephoneRepository.findById(telephoneId);
+    public Telephone findByTelephoneId(UUID telephoneId) {
+        return telephoneRepository.findById(telephoneId)
+                .orElseThrow(() -> new TelephoneNotFound());
     }
 
     public Telephone insertTelephone(UUID clientId, TelephoneDTO telephone) throws TelephoneAlreadyExists {
@@ -51,29 +51,14 @@ public class TelephoneService {
     }
 
     public void deleteTelephone(UUID telephoneId) {
-        Optional<Telephone> telephoneOptional = telephoneRepository.findById(telephoneId);
-        if (telephoneOptional.isPresent()) {
-            telephoneRepository.deleteById(telephoneId);
-        } else {
-            throw new TelephoneNotFound();
-        }
-    }
-
-    public Optional<Telephone> findByClientIdAndTelephoneId(UUID clientId, UUID telephoneId) {
-        List<Telephone> clientList = findAllTelephonesByClientId(clientId);
-        Stream<Telephone> telephoneStream = clientList.stream().filter(telephone -> telephone.getTelephoneId().equals(telephoneId));
-        Optional<Telephone> telephoneSpecific = telephoneStream.findFirst();
-        if (telephoneSpecific.isPresent()) {
-            return telephoneSpecific;
-        } else if (clientList.isEmpty()) {
-            throw new ClientNotFound();
-        } else {
-            throw new TelephoneNotFound();
-        }
+        telephoneRepository.delete(telephoneRepository.findById(telephoneId)
+                .orElseThrow(() -> new TelephoneNotFound()));
     }
 
     public Telephone alterTelephoneByTelephoneId(TelephoneDTO telephone) {
+
         Optional<Telephone> optionalTelephone = telephoneRepository.findById(telephone.getTelephoneId());
+
         if (optionalTelephone.isPresent()) {
             return telephoneRepository.save(new Telephone(telephone));
         } else {

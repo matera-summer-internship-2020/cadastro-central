@@ -59,14 +59,13 @@ public class ClientService {
             // contains at least one identity document
             if(clientDTO.getIdentityDocumentEntityList() != null &&
                     !clientDTO.getIdentityDocumentEntityList().isEmpty()) {
-                Client client = clientRepository.save(new Client(clientDTO));
+                UUID clientId = UUID.randomUUID();
+                Client client = new Client(clientDTO);
+                client.setClientId(clientId);
                 client.getIdentityDocumentEntityList().forEach(
-                        identityDocumentEntity -> {
-                            identityDocumentEntity.setClient(client);
-                            identityDocumentRepository.save(identityDocumentEntity);
-                        }
+                        identityDocumentEntity -> identityDocumentEntity.setClient(client)
                 );
-                return client;
+                return clientRepository.save(client);
             } else {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,

@@ -350,3 +350,21 @@ databaseChangeLog:
                   type: int
                   constraints:
                     - nullable: false
+
+  - changeSet:
+      id:  rename reference column to number
+      author:  Gabriel Seabra
+      changes:
+        -  renameColumn:
+            newColumnName:  number
+            oldColumnName:  reference
+            tableName:  address
+
+  - changeSet:
+      id:  change number column DataType to int
+      author:  Gabriel Seabra
+      changes:
+        -  modifyDataType:
+            columnName:  number
+            newDataType:  int
+            tableName:  address

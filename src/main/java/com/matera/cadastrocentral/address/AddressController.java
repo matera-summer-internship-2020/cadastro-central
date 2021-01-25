@@ -13,7 +13,7 @@ public class AddressController {
     private AddressService addressService;
 
     @PostMapping("/clients/{clientId}/addresses")
-    Address newAddress(@PathVariable UUID clientId, @RequestBody Address newAddress) {
+    Address newAddress(@PathVariable UUID clientId, @RequestBody AddressDTO newAddress) {
         return addressService.insertAddress(clientId, newAddress);
     }
 
@@ -28,7 +28,7 @@ public class AddressController {
     }
 
     @PutMapping("/addresses/{addressId}")
-    Address alterAddress(@PathVariable UUID addressId, @RequestBody Address newAddress) {
+    Address alterAddress(@PathVariable UUID addressId, @RequestBody AddressDTO newAddress) {
         return addressService.alterAddress(addressId, newAddress);
     }
 

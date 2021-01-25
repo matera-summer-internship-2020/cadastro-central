@@ -30,17 +30,24 @@ public class AddressService {
         return addressRepository.findAllByClientId(client);
     }
 
-    public Address insertAddress(UUID clientId, Address newAddress) {
+    public Address insertAddress(UUID clientId, AddressDTO newAddress) {
         Optional<Client> client = clientService.getClientById(clientId);
-
-        return addressRepository.save(newAddress);
+        if (addressRepository.findAll(Example.of(new Address(newAddress))).isEmpty()) {
+            Address address = new Address(newAddress);
+            address.setClientId(client.get());
+            address.setAddressId(newAddress.getAddressId());
+            addressRepository.save(address);
+            return address;
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Endereço já existe");
+        }
     }
 
     public void deleteAddress(UUID id) {
         addressRepository.deleteById(id);
     }
 
-    public Address alterAddress(UUID id, Address newAddress) {
+    public Address alterAddress(UUID id, AddressDTO newAddress) {
         Address alteredAddress = addressRepository.findById(id).orElse(null);
 
         if (alteredAddress == null) {

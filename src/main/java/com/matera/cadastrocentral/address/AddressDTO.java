@@ -1,24 +1,16 @@
 package com.matera.cadastrocentral.address;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.matera.cadastrocentral.client.Client;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import com.matera.cadastrocentral.client.Client;
+
 import java.util.UUID;
 
+public class AddressDTO {
 
-@Data
-@NoArgsConstructor
-@Entity
-public class Address {
+    public AddressDTO(){
+    }
 
-    @Id
-    private  UUID addressId;
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    @JsonBackReference
-    private Client clientId;
+    private UUID addressId;
+    private Client client; //
     private String streetName;
     private String district;
     private String state;
@@ -27,29 +19,20 @@ public class Address {
     private String reference;
     private String city;
 
-    public Address(AddressDTO newAddress) {
-        this.addressId = newAddress.getAddressId();
-        this.clientId = newAddress.getClient();
-        this.streetName = newAddress.getStreetName();
-        this.district = newAddress.getDistrict();
-        this.state = newAddress.getState();
-        this.zipCode = newAddress.getZipCode();
-        this.complement = newAddress.getComplement();
-        this.reference = newAddress.getReference();
-        this.city = newAddress.getCity();
+    public UUID getAddressId() {
+        return addressId;
     }
 
-    @PrePersist
-    public void prePersist() {
-        this.addressId = UUID.randomUUID();
+    public void setAddressId(UUID addressId) {
+        this.addressId = addressId;
     }
 
-    public String getCity() {
-        return city;
+    public Client getClient() {
+        return client;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public String getStreetName() {
@@ -62,10 +45,6 @@ public class Address {
 
     public String getDistrict() {
         return district;
-    }
-
-    public UUID getAddressId() {
-        return addressId;
     }
 
     public void setDistrict(String district) {
@@ -104,6 +83,11 @@ public class Address {
         this.reference = reference;
     }
 
+    public String getCity() {
+        return city;
+    }
 
-
+    public void setCity(String city) {
+        this.city = city;
+    }
 }

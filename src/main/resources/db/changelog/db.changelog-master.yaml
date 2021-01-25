@@ -350,3 +350,28 @@ databaseChangeLog:
                   type: int
                   constraints:
                     - nullable: false
+
+  - changeSet:
+      id:  drop reference column from address table
+      author:  Gabriel Seabra
+      changes:
+        -  dropColumn:
+            catalogName:  cat
+            columnName:  reference
+            columns:
+              -  column:
+                   name:  reference
+            tableName:  address
+
+  - changeSet:
+      id: add number column into address table
+      author: Gabriel Seabra
+      changes:
+        - addColumn:
+            tableName: address
+            columns:
+              - column:
+                  name: number
+                  type: int
+                  constraints:
+                    - nullable: false

@@ -15,7 +15,7 @@ public class Address {
     private String state;
     private String zipCode;
     private String complement;
-    private String reference;
+    private int number;
     private String city;
 
 
@@ -80,12 +80,12 @@ public class Address {
         this.complement = complement;
     }
 
-    public String getReference() {
-        return reference;
+    public int getNumber() {
+        return this.number;
     }
 
-    public void setReference(String reference) {
-        this.reference = reference;
+    public void setNumber( int number) {
+        this.number = number;
     }
 
 

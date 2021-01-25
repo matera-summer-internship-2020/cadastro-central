@@ -22,5 +22,5 @@ public class ClientDTO {
     @NotNull
     private List<Telephone> telephoneList;
     @NotNull
-    private Integer password;
+    private String password;
 }

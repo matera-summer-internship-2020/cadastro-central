@@ -337,3 +337,16 @@ databaseChangeLog:
                     - foreignKeyName: identity_document_client_fk
                     - references: client(client_id)
                     - nullable: false
+
+  - changeSet:
+      id: add password column into client table
+      author: izumizawa
+      changes:
+        - addColumn:
+            tableName: client
+            columns:
+              - column:
+                  name: password
+                  type: int
+                  constraints:
+                    - nullable: false

@@ -85,12 +85,6 @@ public class TelephoneService {
         Optional<Telephone> optionalTelephone = telephoneRepository.findById(telephoneId);
         if (optionalTelephone.isPresent()) {
             Telephone auxTelephone = optionalTelephone.get();
-            // Check if client input exists
-            if (telephone.getClientId() != null) {
-                if (clientService.getClientById(telephone.getClientId().getClientId()).isPresent()) {
-                    auxTelephone.setClientId(telephone.getClientId());
-                }
-            }
             if (telephone.getTelephoneType() != null)
                 auxTelephone.setTelephoneType(telephone.getTelephoneType());
             if (StringUtils.isNotBlank(telephone.getNumber())) {

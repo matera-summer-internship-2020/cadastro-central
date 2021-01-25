@@ -23,7 +23,7 @@ public class ClientService {
     @Autowired
     public ClientService(final ClientRepository clientRepository,
                          final IdentityDocumentRepository identityDocumentRepository,
-                         TelephoneRepository telephoneRepository) {
+                         final TelephoneRepository telephoneRepository) {
         this.clientRepository = clientRepository;
         this.identityDocumentRepository = identityDocumentRepository;
         this.telephoneRepository = telephoneRepository;

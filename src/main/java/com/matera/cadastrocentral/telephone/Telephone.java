@@ -22,14 +22,6 @@ public class Telephone implements TelephoneProjection {
         this.clientId = telephoneDTO.getClientId();
     }
 
-    public Telephone(UUID telephoneId, Client clientId, TelephoneType telephoneType, String number, String ddd) {
-        this.telephoneId = telephoneId;
-        this.clientId = clientId;
-        this.telephoneType = telephoneType;
-        this.number = number;
-        this.ddd = ddd;
-    }
-
     @PrePersist
     public void prePersist() {
         this.telephoneId = UUID.randomUUID();

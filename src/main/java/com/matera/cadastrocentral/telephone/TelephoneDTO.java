@@ -19,7 +19,7 @@ public class TelephoneDTO implements TelephoneProjection {
     private String number;
     @NotNull
     private String ddd;
-
+    @NotNull
     private Client client;
 
     public void setClientId(Client client) {

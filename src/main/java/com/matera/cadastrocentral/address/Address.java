@@ -24,7 +24,7 @@ public class Address {
     private String state;
     private String zipCode;
     private String complement;
-    private String reference;
+    private int number;
     private String city;
 
     public Address(AddressDTO newAddress) {
@@ -35,7 +35,7 @@ public class Address {
         this.state = newAddress.getState();
         this.zipCode = newAddress.getZipCode();
         this.complement = newAddress.getComplement();
-        this.reference = newAddress.getReference();
+        this.number = newAddress.getNumber();
         this.city = newAddress.getCity();
     }
 
@@ -43,5 +43,4 @@ public class Address {
     public void prePersist() {
         this.addressId = UUID.randomUUID();
     }
-
 }

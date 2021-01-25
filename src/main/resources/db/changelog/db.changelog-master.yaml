@@ -337,3 +337,41 @@ databaseChangeLog:
                     - foreignKeyName: identity_document_client_fk
                     - references: client(client_id)
                     - nullable: false
+
+  - changeSet:
+      id: add password column into client table
+      author: izumizawa
+      changes:
+        - addColumn:
+            tableName: client
+            columns:
+              - column:
+                  name: password
+                  type: int
+                  constraints:
+                    - nullable: false
+
+  - changeSet:
+      id:  drop reference column from address table
+      author:  Gabriel Seabra
+      changes:
+        -  dropColumn:
+            catalogName:  cat
+            columnName:  reference
+            columns:
+              -  column:
+                   name:  reference
+            tableName:  address
+
+  - changeSet:
+      id: add number column into address table
+      author: Gabriel Seabra
+      changes:
+        - addColumn:
+            tableName: address
+            columns:
+              - column:
+                  name: number
+                  type: int
+                  constraints:
+                    - nullable: false

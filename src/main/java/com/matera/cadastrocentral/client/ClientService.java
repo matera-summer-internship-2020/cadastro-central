@@ -1,6 +1,7 @@
 package com.matera.cadastrocentral.client;
 
 import com.matera.cadastrocentral.identitydocument.IdentityDocumentRepository;
+import com.matera.cadastrocentral.telephone.TelephoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -17,12 +18,15 @@ public class ClientService {
 
     private final ClientRepository clientRepository;
     private final IdentityDocumentRepository identityDocumentRepository;
+    private final TelephoneRepository telephoneRepository;
 
     @Autowired
     public ClientService(final ClientRepository clientRepository,
-                         final IdentityDocumentRepository identityDocumentRepository) {
+                         final IdentityDocumentRepository identityDocumentRepository,
+                         final TelephoneRepository telephoneRepository) {
         this.clientRepository = clientRepository;
         this.identityDocumentRepository = identityDocumentRepository;
+        this.telephoneRepository = telephoneRepository;
     }
 
     /* API requests */
@@ -55,14 +59,13 @@ public class ClientService {
             // contains at least one identity document
             if(clientDTO.getIdentityDocumentEntityList() != null &&
                     !clientDTO.getIdentityDocumentEntityList().isEmpty()) {
-                Client client = clientRepository.save(new Client(clientDTO));
+                UUID clientId = UUID.randomUUID();
+                Client client = new Client(clientDTO);
+                client.setClientId(clientId);
                 client.getIdentityDocumentEntityList().forEach(
-                        identityDocumentEntity -> {
-                            identityDocumentEntity.setClient(client);
-                            identityDocumentRepository.save(identityDocumentEntity);
-                        }
+                        identityDocumentEntity -> identityDocumentEntity.setClient(client)
                 );
-                return client;
+                return clientRepository.save(client);
             } else {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
@@ -105,5 +108,11 @@ public class ClientService {
                     "Client ID does not exist in the database! Try a valid one."
             );
         }
+    }
+
+    // 6. Get a client by CPF to make a transfer
+    public Client getClientByCPF(String clientCpf) {
+        UUID clientId = clientRepository.findDocumentByCpf(clientCpf);
+        return this.getClientById(clientId).get();
     }
 }

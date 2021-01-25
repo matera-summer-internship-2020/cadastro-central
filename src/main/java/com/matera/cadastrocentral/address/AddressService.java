@@ -57,7 +57,7 @@ public class AddressService {
             return null;
         }
 
-        alteredAddress.setReference(Optional.ofNullable(newAddress.getReference()).orElse(alteredAddress.getReference()));
+        alteredAddress.setNumber(Optional.ofNullable(newAddress.getNumber()).orElse(alteredAddress.getNumber()));
         alteredAddress.setZipCode(Optional.ofNullable(newAddress.getZipCode()).orElse(alteredAddress.getZipCode()));
         alteredAddress.setDistrict(Optional.ofNullable(newAddress.getDistrict()).orElse(alteredAddress.getDistrict()));
         alteredAddress.setComplement(Optional.ofNullable(newAddress.getComplement()).orElse(alteredAddress.getComplement()));

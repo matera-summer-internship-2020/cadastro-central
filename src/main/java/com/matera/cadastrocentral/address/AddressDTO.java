@@ -17,6 +17,6 @@ public class AddressDTO {
     private String state;
     private String zipCode;
     private String complement;
-    private String reference;
+    private int number;
     private String city;
 }

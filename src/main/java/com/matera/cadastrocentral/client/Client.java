@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.matera.cadastrocentral.address.Address;
 import com.matera.cadastrocentral.identitydocument.IdentityDocumentEntity;
 import com.matera.cadastrocentral.maritalstatus.MaritalStatusEntity;
+import com.matera.cadastrocentral.telephone.Telephone;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -28,17 +29,17 @@ public class Client {
     @OneToMany(mappedBy = "clientId", cascade=CascadeType.ALL, orphanRemoval=true)
     @JsonManagedReference
     private List<Address> addressList;
+    private int password;
 
+    @OneToMany(mappedBy = "clientId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Telephone> telephoneList;
     /* Constructors */
 
     public Client(ClientDTO clientDTO){
         this.name = clientDTO.getName();
         this.maritalStatusEntity = clientDTO.getMaritalStatusEntity();
         this.identityDocumentEntityList = clientDTO.getIdentityDocumentEntityList();
-    }
-
-    @PrePersist
-    public void prePersist(){
-        this.clientId = UUID.randomUUID();
+        this.telephoneList = clientDTO.getTelephoneList();
     }
 }

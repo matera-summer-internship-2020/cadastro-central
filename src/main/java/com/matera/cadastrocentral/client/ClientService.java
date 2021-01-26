@@ -121,7 +121,7 @@ public class ClientService {
 
     // 6. Get a client by CPF to make a transfer
     public Client getClientByCPF(String clientCpf) {
-        UUID clientId = clientRepository.findDocumentByCpf(clientCpf);
+        UUID clientId = clientRepository.findClientIdByCpf(clientCpf);
         return this.getClientById(clientId).get();
     }
 }

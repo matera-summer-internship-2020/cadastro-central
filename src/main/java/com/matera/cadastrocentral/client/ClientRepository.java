@@ -11,5 +11,5 @@ import java.util.UUID;
 public interface ClientRepository extends JpaRepository<Client, UUID> {
 
     @Query("SELECT doc.client.clientId FROM IdentityDocumentEntity doc WHERE doc.identityDocument = :clientCpf")
-    UUID findDocumentByCpf(@Param("clientCpf") String clientCpf);
+    UUID findClientIdByCpf(@Param("clientCpf") String clientCpf);
 }

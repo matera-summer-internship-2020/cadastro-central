@@ -6,5 +6,5 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PasswordDTO {
-    private String newPassword;
+    private String password;
 }

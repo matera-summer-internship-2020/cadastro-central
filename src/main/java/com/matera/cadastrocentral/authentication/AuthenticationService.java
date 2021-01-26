@@ -40,7 +40,7 @@ public class AuthenticationService {
         if(!client.getPassword().equals(loginDTO.getClientPassword())){
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED,
-                    "Password incorrect!");
+                    "Senha incorreta!");
         }
     }
 
@@ -49,7 +49,7 @@ public class AuthenticationService {
         if (!client.get().getPassword().equals(clientPassword.getPassword())){
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
-                    "Password incorrect!");
+                    "Senha incorreta!");
         }
     }
 }

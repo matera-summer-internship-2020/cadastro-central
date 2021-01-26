@@ -13,7 +13,7 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @PatchMapping("{clientId}/ChangePassword")
+    @PatchMapping("{clientId}/change-password")
     void changePassword (@PathVariable UUID clientId, @RequestBody PasswordDTO newPassword) {
         authenticationService.changePassword(clientId, newPassword);
     }

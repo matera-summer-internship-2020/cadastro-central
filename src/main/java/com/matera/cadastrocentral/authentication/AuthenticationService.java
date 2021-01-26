@@ -15,8 +15,8 @@ import java.util.UUID;
 @Service
 public class AuthenticationService {
 
-    private ClientService clientService;
-    private ClientRepository clientRepository;
+    private final ClientService clientService;
+    private final ClientRepository clientRepository;
 
 
     @Autowired
@@ -25,7 +25,6 @@ public class AuthenticationService {
         this.clientRepository = clientRepository;
     }
 
-
     public void changePassword(UUID clientId, PasswordDTO newPassword) {
         Optional<Client> client =  clientService.getClientById(clientId);
         if (StringUtils.isNumeric(newPassword.getPassword()) && newPassword.getPassword().length() == 6) {
@@ -33,6 +32,24 @@ public class AuthenticationService {
             clientRepository.save(client.get());
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insira uma senha numérica de 6 digítos");
+        }
+    }
+
+    public void loginValidation(LoginDTO loginDTO) {
+        Client client = clientService.getClientByCPF(loginDTO.getClientCPF());
+        if(!client.getPassword().equals(loginDTO.getClientPassword())){
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Password incorrect!");
+        }
+    }
+
+    public void passwordValidation(UUID clientId, PasswordDTO clientPassword) {
+        Optional<Client> client = clientService.getClientById(clientId);
+        if (!client.get().getPassword().equals(clientPassword.getPassword())){
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Password incorrect!");
         }
     }
 }

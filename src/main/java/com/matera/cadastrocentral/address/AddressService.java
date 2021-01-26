@@ -54,7 +54,7 @@ public class AddressService {
         Address alteredAddress = addressRepository.findById(id).orElse(null);
 
         if (alteredAddress == null) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Address not found");
         }
 
         alteredAddress.setNumber(Optional.ofNullable(newAddress.getNumber()).orElse(alteredAddress.getNumber()));

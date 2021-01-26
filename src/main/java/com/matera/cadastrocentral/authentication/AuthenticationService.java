@@ -28,7 +28,6 @@ public class AuthenticationService {
 
     public void changePassword(UUID clientId, PasswordDTO newPassword) {
         Optional<Client> client =  clientService.getClientById(clientId);
-        //if(StringUtils.isNumeric(clientDTO.getPassword()) && clientDTO.getPassword().length() == 6)
         if (StringUtils.isNumeric(newPassword.getPassword()) && newPassword.getPassword().length() == 6) {
             client.get().setPassword(newPassword.getPassword());
             clientRepository.save(client.get());

@@ -1,9 +1,9 @@
 # Central register 🇺🇸
 
 ## About
-Central register is composed by REST APIs, `Client`, `Address`, `IdentityDocument` and `Telephone`. They are organized as shown in the following image, and its purpose is to register people, as `Client`, by the attributes: `Name`, `MaritalStatus`, list of `IdentityDocument`, list of `Telephone` and `Address`.
+Central register is composed by REST APIs, `Client`, `Address`, `IdentityDocument` and `Telephone`. They are organized as shown in the following image, and its purpose is to register people, as `Client`, by the attributes: `Name`, `MaritalStatus`, `Password`, list of `IdentityDocument`, list of `Telephone` and `Address`.
 
-[![Central Register Schema](https://i.postimg.cc/tThGsKDR/central-register-schema.png)](https://postimg.cc/625mS1DF)
+[![Central Register Schema](https://i.postimg.cc/25pvY3Rs/central-register-updated.png)](https://postimg.cc/75VbMHL9)
 ## First steps
 ### Database
 Before running our application, you have to create a postgres database locally with the following attributes:
@@ -26,9 +26,9 @@ You should be able to access the project documentation locally at http://localho
 
 # Cadastro central 🇧🇷
 ## Sobre
-Cadastro Central é composto por APIs REST, `Client`, `Address`, `IdentityDocument` e `Telephone`. São organizados como mostra na imagem abaixo, e seu propósito é cadastrar pessoas, como `Client`, pelos atributos: `Name`, `MaritalStatus`, lista de `IdentityDocument`, lista de `Telephone` e `Address`.
+Cadastro Central é composto por APIs REST, `Client`, `Address`, `IdentityDocument` e `Telephone`. São organizados como mostra na imagem abaixo, e seu propósito é cadastrar pessoas, como `Client`, pelos atributos: `Name`, `MaritalStatus`, `Password`, lista de `IdentityDocument`, lista de `Telephone` e `Address`.
 
-[![Esquema de Cadastro Central](https://i.postimg.cc/tThGsKDR/central-register-schema.png)](https://postimg.cc/625mS1DF)
+[![Esquema de Cadastro Central](https://i.postimg.cc/25pvY3Rs/central-register-updated.png)](https://postimg.cc/75VbMHL9)
 ## Primeiros passos
 ### Banco da dados
 Antes de rodar a aplicação, você tem que criar um banco de dados postgres localmente com os seguintes atributos:
